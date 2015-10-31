@@ -14,43 +14,40 @@ class Main:
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida =  arquivo_saida
 
-	def tratar_arquivo(self):
+	def validar_arquivo(self):
 		
 		try:
-
+			""" Abro os aqruivos para garantir que não estão corrompidos"""
 			e = open(self.arquivo_entrada, "r")
-			s = open(self.arquivo_saida, "r")
+			s = open(self.arquivo_saida, "w")
 			
 			if len(e.readline()) == 0:
 				raise Erros
 
-			e.close()
-			s.close()
-				
 		except IOError:
 			os.system("cls")
-			print("\nErro ao abrir o arquivo %s" % self.arquivo_saida)
+			print("\nArquivos de entradas invalidos ou corrompidos")
 			sys.exit(0)
 		except Erros as E:
 			os.system("cls")
 			print(E.arquivo_vazio())
 			sys.exit(0)
 
+	def tratar_dados_de_entrada(self):
 		arquivos = Arquivo(self.arquivo_entrada, self.arquivo_saida)
-		arquivos.get_file_name()
+		arquivos.ler_entrada()
 
-"""Fim da classe Main"""
 
-"""Criando objeto da classe Main e chamando os metodos"""
+""" Criando objeto da classe Main e chamando os metodos """
 try:
-
 	if len(sys.argv) != 3:
 		raise Erros
-
 except Erros as E:
 	os.system("cls")
 	print(E.argvs_invalidos())
 	sys.exit(0)
 
+""" Estanciando Objeto e chamando as funções"""
 Controller = Main( sys.argv[1], sys.argv[2] )
-Controller.tratar_arquivo()
+Controller.validar_arquivo()
+Controller.tratar_dados_de_entrada()
