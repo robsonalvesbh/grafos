@@ -1,6 +1,5 @@
 import sys
 import os
-import unittest
 
 from Arquivo import *
 from Erros import *
@@ -48,6 +47,7 @@ except Erros as E:
 	sys.exit(0)
 
 """ Estanciando Objeto e chamando as funções"""
+
 Controller = Main( sys.argv[1], sys.argv[2] )
 Controller.validar_arquivo()
 Controller.tratar_dados_de_entrada()
