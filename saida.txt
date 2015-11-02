@@ -1,0 +1,6 @@
+DISTANCIA 0 1 2 
+21
+
+DISTANCIA 0 1 2 0 2 
+55
+

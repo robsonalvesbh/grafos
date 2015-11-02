@@ -1,13 +1,15 @@
 class Arquivo(object):
 
 	"""Método construtor da classe"""
-	def __init__(self, arquivo_entrada, arquivo_saida):
+	def __init__(self, arquivo_entrada = None, arquivo_saida = None):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida = arquivo_saida
 		self.vertices = []
 		self.arestas = []
-		self.comandos = {}
+		self.comandos = []
 		self.grafo = {}
+		self.eh_digrafo = False
+		self.tem_peso = False
 
 	def get_file_name(self):
 		print("O nome do arquivo de entrada e %s " % self.arquivo_entrada)
@@ -40,7 +42,7 @@ class Arquivo(object):
 		for i in lista[indice_vertice + 1:indice_aresta - 1]:
 			dados['arestas'].append(i)
 
-		for i in lista[indice_aresta + 1: -1]:
+		for i in lista[indice_aresta + 1:]:
 			dados['comandos'].append(i)	
 
 		return dados
@@ -60,6 +62,20 @@ class Arquivo(object):
 			#joga para dentro da lista self.vertices eliminando os 2 ultimos caracteres da lista que são ';\n'
 			self.vertices.append( ultimo_elemento[:-2] )
 
+		
+		#percorre o vetor self.vertices e transforma-os seus itens em inteiros
+		for i in range(len(self.vertices)):
+			self.vertices[i] = int(self.vertices[i])
+		#vertice[1] retorna "true ;" o split(' ') transforma ele em uma lista ['true', ';']
+		#fazendo vertices[1].split(' ')[0] eu pego a primeira posicao que é true
+		#e como uma string é nada mais que uma lista
+		#e acrescentando o [0] a frente vertices[1].split(' ')[0][0] pegamos sempre a primeira letra 
+		#que sempre será f ou t (f = false, t = true)
+		self.eh_digrafo = vertices[1].split(' ')[0][0]
+		#mesmo exemplo do digrafo acima
+		self.tem_peso = vertices[2].split(' ')[0][0]
+		
+
 	#função que pega as arestas
 	def pega_arestas(self, arestas):
 		#percorre a lista de arestas 
@@ -76,14 +92,43 @@ class Arquivo(object):
 			ultimo_elemento = aux[len(aux) - 1]
 			
 			#verifica se o ultimo elemento (peso da aresta) é igual ',\n' ou igual ';\n'
-			if ultimo_elemento == ',\n' or ultimo_elemento == ';\n':
+			if ultimo_elemento == ',\n' or ultimo_elemento == ';\n' or self.tem_peso == False:
 				#se a aresta não tiver peso adiciono peso 1
 				lista_aux.append( '1' )
 			else:
 				#se tiver adiciono o peso
 				lista_aux.append( ultimo_elemento[:-2] )
+
+			#percorre o vetor lista_aux e transforma-os seus itens em inteiros
+			for i in range(len(lista_aux)):
+				lista_aux[i] = int(lista_aux[i])
+
 			#em cada loop do for adiciono a lista contendo (vertice_origem, vertice_destino, peso) na lista self.arestas
 			self.arestas.append(lista_aux)
+
+	def pega_comandos(self, comandos):
+		#percorro a lista de comendos
+		for i in comandos:
+			#separo cada comando pelo espaço
+			aux = i.split(' ')	
+			
+			lista_aux =  aux[1:-1] 
+			#pego o ultimo elemendo do comendo e separo pelo ;
+			ultimo_elemento = aux[len(aux) - 1].split(';')
+			#depois de separar o ultimo comendo pego o primeiro elemento
+			lista_aux.append( ultimo_elemento[0] )
+
+			for j in range(len(lista_aux)):
+				lista_aux[j] = int(lista_aux[j])
+
+			self.comandos.append({'algoritmo': aux[0], 'lista': lista_aux})
+
+	def monta_grafo(self):
+		self.grafo['vertices'] = self.vertices 
+		self.grafo['arestas'] = self.arestas
+		self.grafo['eh_digrafo'] = True if self.eh_digrafo.lower() == 't' else False #Ternário, retorna True se t (TRUE) e False caso contrario
+		self.grafo['tem_peso']  = True if self.tem_peso.lower() == 't' else False
+		self.grafo['comandos'] = self.comandos
 
 	#função que ler o arquivo de entrada
 	def ler_entrada(self):
@@ -91,8 +136,27 @@ class Arquivo(object):
 		dados_distribuidos = self.distribui_dados(dados)
 		self.pega_vertices(dados_distribuidos['grafo'])
 		self.pega_arestas(dados_distribuidos['arestas'])
-		#print(self.vertices)
+		self.monta_grafo()
+		self.pega_comandos(dados_distribuidos['comandos'])
 
+		return self.grafo
+		
 	#função que grava a resposta no arquivo de saida
-	def grava_saida(self):
-		pass	
+	def grava_saida(self, algoritmo, resposta):
+
+		arq = self.abrir_arquivo(self.arquivo_saida, "a")
+
+		if algoritmo == "distancia":
+			self.grava_distancia(arq, resposta)
+		elif algoritmo == "caminho":
+			pass
+
+		arq.close()
+
+	def grava_distancia(self, arquivo, resposta):
+		arquivo.write('DISTANCIA ')
+		for i in resposta['caminho']:
+			arquivo.write('%s ' % str(i))
+		arquivo.write('\n')
+		arquivo.write(str(resposta['distancia']))
+		arquivo.write('\n\n')
