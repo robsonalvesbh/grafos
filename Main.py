@@ -66,7 +66,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("distancia", dados)
 
 			if resposta != False:
-				time.sleep( 2 )
+				#time.sleep( 2 )
 				print("Calcula distancia - [ OK ]")
 
 	#executa o algoritmo que encontra uma rota entre 2 vertices
@@ -76,6 +76,9 @@ class Main:
 			print("Caminho Invalido")
 		else:
 			self.grava_resposta_arquivo("caminho", result)
+
+	def busca_largura(self, origem, destino):
+		self.grafo.busca_em_largura( origem, destino )
 
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
@@ -111,4 +114,5 @@ if __name__ == "__main__":
 	#controller.encontra_caminho(0, 3)
 	#controller.calcula_distancia([0,1,2,0,1,2,3])
 	controller.executa_comandos(dados['comandos'])
+	controller.busca_largura(0,3)
 	

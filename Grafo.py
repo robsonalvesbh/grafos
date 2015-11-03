@@ -87,3 +87,19 @@ class Grafo(object):
 					break
 
 		return {"caminho": caminho, "distancia": distancia}
+
+	def busca_em_largura(self, origem, destino):
+
+		v_atual = origem
+		fila = [v_atual]
+		visitados = []
+
+		while fila:
+
+			for i in self.lista_adjacencia[v_atual]:
+				
+				if v_atual not in visitados:
+					visitados.append(fila.pop(0))
+					fila.append(i[0])
+
+			print(fila)
