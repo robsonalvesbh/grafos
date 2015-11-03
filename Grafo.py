@@ -91,15 +91,22 @@ class Grafo(object):
 	def busca_em_largura(self, origem, destino):
 
 		v_atual = origem
-		fila = [v_atual]
+		fila = []
 		visitados = []
+		resposta = [v_atual]
 
-		while fila:
+		while v_atual != destino:
+			
 
 			for i in self.lista_adjacencia[v_atual]:
 				
-				if v_atual not in visitados:
-					visitados.append(fila.pop(0))
+				if i[0] not in visitados:
 					fila.append(i[0])
-
+					visitados += [v_atual]
+			
 			print(fila)
+
+			if fila:
+				v_atual = fila.pop(0)
+			else:
+				break
