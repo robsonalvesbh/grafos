@@ -152,8 +152,10 @@ class Arquivo(object):
 
 			if algoritmo == "distancia":
 				self.grava_distancia(arq, resposta)
-			elif algoritmo == "caminho":
+			if algoritmo == "caminho":
 				pass
+			if algoritmo == "largura":
+				self.grava_largura(arq, resposta)
 
 		except:
 
@@ -169,3 +171,20 @@ class Arquivo(object):
 		arquivo.write('\n')
 		arquivo.write(str(resposta['distancia']))
 		arquivo.write('\n\n')
+
+	def grava_largura(self, arquivo, resposta):
+		
+		arquivo.write('LARGURA ')
+
+		for i in resposta['vertices']:
+			arquivo.write('%s ' % str(i))
+
+		arquivo.write('\n')
+
+		for i in resposta['resposta']:
+			for j in i:
+				arquivo.write('%s ' % str(j))
+			arquivo.write('\n')
+			
+		arquivo.write('\n')
+	

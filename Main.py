@@ -66,7 +66,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("distancia", dados)
 
 			if resposta != False:
-				#time.sleep( 2 )
+				time.sleep( 1 )
 				print("Calcula distancia - [ OK ]")
 
 	#executa o algoritmo que encontra uma rota entre 2 vertices
@@ -77,8 +77,31 @@ class Main:
 		else:
 			self.grava_resposta_arquivo("caminho", result)
 
-	def busca_largura(self, origem, destino):
-		self.grafo.busca_em_largura( origem, destino )
+	def busca_largura(self, lista):
+		vertices = list(lista)
+		result = self.grafo.busca_em_largura( lista[0], lista[1] )
+		if result == None:
+			print("Caminho Invalido")
+		else:
+			dados = {"vertices": vertices, "resposta": result}
+			resposta = self.grava_resposta_arquivo("largura", dados)
+
+			if resposta != False:
+				time.sleep( 1 )
+				print("Busca em largura  - [ OK ]")
+
+	def busca_profundidade(self, lista):
+		vertices = list(lista)
+		result = self.grafo.busca_em_profundidade( lista[0], lista[1] )
+		if result == None:
+			print("Caminho Invalido")
+		else:
+			dados = {"vertices": vertices, "resposta": result}
+			resposta = self.grava_resposta_arquivo("largura", dados)
+
+			if resposta != False:
+				time.sleep( 1 )
+				print("Busca em profundidade  - [ OK ]")
 
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
@@ -94,6 +117,12 @@ class Main:
 		
 		if comando['algoritmo'].lower() == "distancia":
 			self.calcula_distancia(comando['lista'])
+
+		if comando['algoritmo'].lower() == "largura":
+			self.busca_largura(comando['lista'])
+
+		if comando['algoritmo'].lower() == "profundidade":
+			self.busca_profundidade(comando['lista'])
 
 
 #Criando objeto da classe Main e chamando os metodos
@@ -114,5 +143,4 @@ if __name__ == "__main__":
 	#controller.encontra_caminho(0, 3)
 	#controller.calcula_distancia([0,1,2,0,1,2,3])
 	controller.executa_comandos(dados['comandos'])
-	controller.busca_largura(0,3)
 	

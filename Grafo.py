@@ -1,3 +1,5 @@
+import sys
+
 class Grafo(object):
 
 	"""Construtor da classe Grafo"""
@@ -93,20 +95,75 @@ class Grafo(object):
 		v_atual = origem
 		fila = []
 		visitados = []
-		resposta = [v_atual]
+		respostas = [[v_atual]]
 
 		while v_atual != destino:
-			
 
-			for i in self.lista_adjacencia[v_atual]:
+			try:
+				if not v_atual in visitados:
+					for i in self.lista_adjacencia[v_atual]:
+						if i[0] not in visitados:
+							visitados += [v_atual]
+							fila.append(i[0])
 				
-				if i[0] not in visitados:
-					fila.append(i[0])
-					visitados += [v_atual]
-			
-			print(fila)
+				respostas.append(list(fila))
 
-			if fila:
-				v_atual = fila.pop(0)
+				if fila:
+					v_atual = fila.pop(0)
+				else:
+					break
+			except:
+				return respostas
+
+		return respostas
+
+	def busca_em_profundidade(self, origem, destino):
+
+		v_atual = origem
+		pilha = []
+		visitados = []
+		respostas = [v_atual]
+
+		while v_atual != destino:
+
+			#se o vertice atual ainda nao foi visitado
+			if not v_atual in visitados:
+				visitados.append(v_atual) #adiciona a lista de visitados
+				pilha.append(v_atual) #adiciona a pilha
+
+			existe_vizinho = [False] #lista auxiliar que vai verificar se existe visito para meu vertice atualz
+
+			#verifica se meu vertice atual possui vizinhos
+			if v_atual in self.lista_adjacencia:
+				#percorro a lista de vizinhos
+				for i in self.lista_adjacencia[v_atual]:
+					#se meu vizinho ainda nao foi visitado
+					if not i[0] in visitados:
+						existe_vizinho[0] = True #primeira posicao vai afirmar que existe vizinho que ainda nao foi visitado
+						existe_vizinho.append(i[0]) #segunda posicao guarda o valor do vizinho
+						break
+			else: #se nao possui vizinhos
+				pilha.pop(-1) #volto para o vertice anterior
+				v_atual = pilha[len(pilha) - 1] # meu vertice atual recebe o vertice anterior
+				visitados.append(v_atual) #falo que esse vertice que nao possui vizinhos ja foi vizitado
+				respostas.pop(-1) #removo ele da pilha de resposta
+				continue #continue informa para meu loop parar aqui e começar na proxima volta
+
+			#verifico se existe vizinho (filhos do vertice atual) a serem percorridos
+			if existe_vizinho[0]:
+				respostas.append(existe_vizinho[1])#
+				v_atual = existe_vizinho[1]
 			else:
-				break
+				pilha.pop(-1)
+				v_atual = pilha[len(pilha) - 1]
+				respostas.pop(-1)
+				if pilha:
+					break
+			
+
+		print(respostas)
+		sys.exit(0)
+
+		#return respostas
+
+
