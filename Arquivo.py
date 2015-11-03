@@ -1,7 +1,9 @@
+from Erros import *
+
 class Arquivo(object):
 
 	"""Método construtor da classe"""
-	def __init__(self, arquivo_entrada = None, arquivo_saida = None):
+	def __init__(self, arquivo_entrada, arquivo_saida):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida = arquivo_saida
 		self.vertices = []
@@ -146,10 +148,17 @@ class Arquivo(object):
 
 		arq = self.abrir_arquivo(self.arquivo_saida, "a")
 
-		if algoritmo == "distancia":
-			self.grava_distancia(arq, resposta)
-		elif algoritmo == "caminho":
-			pass
+		try:
+
+			if algoritmo == "distancia":
+				self.grava_distancia(arq, resposta)
+			elif algoritmo == "caminho":
+				pass
+
+		except:
+
+			return False
+			
 
 		arq.close()
 
