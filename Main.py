@@ -97,7 +97,7 @@ class Main:
 			print("Caminho Invalido")
 		else:
 			dados = {"vertices": vertices, "resposta": result}
-			resposta = self.grava_resposta_arquivo("largura", dados)
+			resposta = self.grava_resposta_arquivo("profundidade", dados)
 
 			if resposta != False:
 				time.sleep( 1 )

@@ -155,7 +155,9 @@ class Arquivo(object):
 			if algoritmo == "caminho":
 				pass
 			if algoritmo == "largura":
-				self.grava_largura(arq, resposta)
+				self.grava_busca_largura(arq, resposta)
+			if algoritmo == "profundidade":
+				self.grava_busca_profundidade(arq, resposta)
 
 		except:
 
@@ -172,7 +174,7 @@ class Arquivo(object):
 		arquivo.write(str(resposta['distancia']))
 		arquivo.write('\n\n')
 
-	def grava_largura(self, arquivo, resposta):
+	def grava_busca_largura(self, arquivo, resposta):
 		
 		arquivo.write('LARGURA ')
 
@@ -185,6 +187,20 @@ class Arquivo(object):
 			for j in i:
 				arquivo.write('%s ' % str(j))
 			arquivo.write('\n')
+			
+		arquivo.write('\n')
+
+	def grava_busca_profundidade(self, arquivo, resposta):
+		
+		arquivo.write('PROFUNDIDADE ')
+
+		for i in resposta['vertices']:
+			arquivo.write('%s ' % str(i))
+
+		arquivo.write('\n')
+
+		for i in reversed(resposta['resposta']):
+			arquivo.write('%s \n' % str(i))
 			
 		arquivo.write('\n')
 	

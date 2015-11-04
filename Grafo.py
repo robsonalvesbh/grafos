@@ -151,19 +151,17 @@ class Grafo(object):
 
 			#verifico se existe vizinho (filhos do vertice atual) a serem percorridos
 			if existe_vizinho[0]:
-				respostas.append(existe_vizinho[1])#
-				v_atual = existe_vizinho[1]
-			else:
-				pilha.pop(-1)
-				v_atual = pilha[len(pilha) - 1]
-				respostas.pop(-1)
+				respostas.append(existe_vizinho[1]) #coloca o elemento na nossa pilha de resposta
+				v_atual = existe_vizinho[1] #o vertice atual agora é o vizinho
+			else: #se nao existe um vizinho
+				pilha.pop(-1) #removo o elemento do topo da pilha
+				v_atual = pilha[len(pilha) - 1] #vertice passa a ser o ultimo elemento da pilha 
+				respostas.pop(-1) #removo da pilha de resposta
+				#se a pilha estiver vazia, paro o loop com break
 				if pilha:
 					break
 			
 
-		print(respostas)
-		sys.exit(0)
-
-		#return respostas
+		return respostas
 
 
