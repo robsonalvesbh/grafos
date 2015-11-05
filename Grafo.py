@@ -99,21 +99,21 @@ class Grafo(object):
 
 		while v_atual != destino:
 
-			try:
+			if v_atual in self.lista_adjacencia:
 				if not v_atual in visitados:
 					for i in self.lista_adjacencia[v_atual]:
 						if i[0] not in visitados:
 							visitados += [v_atual]
 							fila.append(i[0])
+			else:
+				visitados += [v_atual]
 				
-				respostas.append(list(fila))
+			respostas.append(list(fila))
 
-				if fila:
-					v_atual = fila.pop(0)
-				else:
-					break
-			except:
-				return respostas
+			if fila:
+				v_atual = fila.pop(0)
+			else:
+				break
 
 		return respostas
 
@@ -131,7 +131,7 @@ class Grafo(object):
 				visitados.append(v_atual) #adiciona a lista de visitados
 				pilha.append(v_atual) #adiciona a pilha
 
-			existe_vizinho = [False] #lista auxiliar que vai verificar se existe visito para meu vertice atualz
+			existe_vizinho = [False] #lista auxiliar que vai verificar se existe visito para meu vertice atual
 
 			#verifica se meu vertice atual possui vizinhos
 			if v_atual in self.lista_adjacencia:
@@ -145,23 +145,51 @@ class Grafo(object):
 			else: #se nao possui vizinhos
 				pilha.pop(-1) #volto para o vertice anterior
 				v_atual = pilha[len(pilha) - 1] # meu vertice atual recebe o vertice anterior
+				respostas.append(v_atual)
 				visitados.append(v_atual) #falo que esse vertice que nao possui vizinhos ja foi vizitado
-				respostas.pop(-1) #removo ele da pilha de resposta
+				#respostas.pop(-1) #removo ele da pilha de resposta
 				continue #continue informa para meu loop parar aqui e começar na proxima volta
 
 			#verifico se existe vizinho (filhos do vertice atual) a serem percorridos
 			if existe_vizinho[0]:
-				respostas.append(existe_vizinho[1]) #coloca o elemento na nossa pilha de resposta
 				v_atual = existe_vizinho[1] #o vertice atual agora é o vizinho
+				respostas.append(v_atual) #coloca o elemento na nossa pilha de resposta
 			else: #se nao existe um vizinho
 				pilha.pop(-1) #removo o elemento do topo da pilha
 				v_atual = pilha[len(pilha) - 1] #vertice passa a ser o ultimo elemento da pilha 
-				respostas.pop(-1) #removo da pilha de resposta
+				respostas.append(v_atual)
+				#respostas.pop(-1) #removo da pilha de resposta
 				#se a pilha estiver vazia, paro o loop com break
-				if pilha:
+				if len(pilha) == 0:
 					break
 			
 
 		return respostas
 
+	def __busca_em_profundidade(self, origem, destino):
 
+		v_atual = origem
+		fila = []
+		visitados = []
+		respostas = [[v_atual]]
+
+		while v_atual != destino:
+			
+			if v_atual in self.lista_adjacencia:
+				if not v_atual in visitados:
+					for i in self.lista_adjacencia[v_atual]:
+						if i[0] not in visitados:
+							visitados += [v_atual]
+							fila.insert(1, i[0])
+			else:
+				visitados += [v_atual]
+			
+			respostas.append(list(fila))
+
+			if fila:
+				v_atual = fila.pop(0)
+			else:
+				break
+		
+
+		return respostas

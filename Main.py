@@ -66,7 +66,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("distancia", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
+				#time.sleep( 1 )
 				print("Calcula distancia - [ OK ]")
 
 	#executa o algoritmo que encontra uma rota entre 2 vertices
@@ -87,7 +87,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("largura", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
+				#time.sleep( 1 )
 				print("Busca em largura  - [ OK ]")
 
 	def busca_profundidade(self, lista):
@@ -100,7 +100,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("profundidade", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
+				#time.sleep( 1 )
 				print("Busca em profundidade  - [ OK ]")
 
 	#executa a lista de comandos do arquivo de entrada

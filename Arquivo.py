@@ -199,8 +199,23 @@ class Arquivo(object):
 
 		arquivo.write('\n')
 
-		for i in reversed(resposta['resposta']):
+		for i in resposta['resposta']:
 			arquivo.write('%s \n' % str(i))
 			
 		arquivo.write('\n')
 	
+	def __grava_busca_profundidade(self, arquivo, resposta):
+		
+		arquivo.write('PROFUNDIDADE ')
+
+		for i in resposta['vertices']:
+			arquivo.write('%s ' % str(i))
+
+		arquivo.write('\n')
+
+		for i in resposta['resposta']:
+			for j in i:
+				arquivo.write('%s ' % str(j))
+			arquivo.write('\n')
+			
+		arquivo.write('\n')
