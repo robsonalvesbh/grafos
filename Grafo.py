@@ -1,4 +1,5 @@
 import sys
+import math
 
 class Grafo(object):
 
@@ -175,6 +176,7 @@ class Grafo(object):
 
 		while v_atual != destino:
 			
+
 			if v_atual in self.lista_adjacencia:
 				if not v_atual in visitados:
 					for i in self.lista_adjacencia[v_atual]:
@@ -193,3 +195,43 @@ class Grafo(object):
 		
 
 		return respostas
+
+	def dijkstra(self, origem, destino):
+
+		v_atual = []
+		distancia = {}
+		visitados = []
+		# v_anterior = {}
+		prioridade = []
+
+		#Cria peso infinito para todas as arestas
+		for i in self.lista_adjacencia:
+			for j in self.lista_adjacencia[i]:
+				distancia[j[0]] = math.inf
+
+		distancia[origem] = 0
+
+		prioridade.append([origem, distancia[origem]])
+
+		while len(prioridade) > 0:
+
+			v_atual = list(prioridade.pop(0))
+			
+			print(v_atual)
+
+			if v_atual[0] in self.lista_adjacencia:
+
+				if not v_atual[0] in visitados:
+
+					visitados.append(v_atual)
+					a_menor = math.inf
+
+					for i in self.lista_adjacencia[v_atual[0]]:
+
+						if distancia[i[0]] > (distancia[v_atual[0]] + i[1]):
+							distancia[i[0]] = distancia[v_atual[0]] + i[1]
+							prioridade.append( [ i[0], distancia[i[0]] ] )
+			else:
+				continue
+			
+		print(distancia[destino])

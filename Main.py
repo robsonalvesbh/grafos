@@ -103,6 +103,9 @@ class Main:
 				#time.sleep( 1 )
 				print("Busca em profundidade  - [ OK ]")
 
+	def dijkstra(self, origem, destino):
+		self.grafo.dijkstra(origem, destino)
+
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
 		os.system("cls")
@@ -142,5 +145,5 @@ if __name__ == "__main__":
 	controller.monta_grafo(dados)
 	#controller.encontra_caminho(0, 3)
 	#controller.calcula_distancia([0,1,2,0,1,2,3])
-	controller.executa_comandos(dados['comandos'])
-	
+	#controller.executa_comandos(dados['comandos'])
+	controller.dijkstra(0,3)
