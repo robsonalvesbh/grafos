@@ -190,7 +190,7 @@ class Arquivo(object):
 			
 		arquivo.write('\n')
 
-	def grava_busca_profundidade(self, arquivo, resposta):
+	def __grava_busca_profundidade(self, arquivo, resposta):
 		
 		arquivo.write('PROFUNDIDADE ')
 
@@ -204,7 +204,7 @@ class Arquivo(object):
 			
 		arquivo.write('\n')
 	
-	def __grava_busca_profundidade(self, arquivo, resposta):
+	def grava_busca_profundidade(self, arquivo, resposta):
 		
 		arquivo.write('PROFUNDIDADE ')
 

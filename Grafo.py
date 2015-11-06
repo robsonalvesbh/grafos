@@ -118,7 +118,7 @@ class Grafo(object):
 
 		return respostas
 
-	def busca_em_profundidade(self, origem, destino):
+	def __busca_em_profundidade(self, origem, destino):
 
 		v_atual = origem
 		pilha = []
@@ -167,28 +167,31 @@ class Grafo(object):
 
 		return respostas
 
-	def __busca_em_profundidade(self, origem, destino):
+	def busca_em_profundidade(self, origem, destino):
 
-		v_atual = origem
 		fila = []
 		visitados = []
-		respostas = [[v_atual]]
+		respostas = [[origem]]
+		v_atual = origem
 
 		while v_atual != destino:
-			
 
 			if v_atual in self.lista_adjacencia:
+				
 				if not v_atual in visitados:
+					indice = 0
 					for i in self.lista_adjacencia[v_atual]:
 						if i[0] not in visitados:
 							visitados += [v_atual]
-							fila.insert(1, i[0])
+							fila.insert(indice, i[0])
+							indice += 1
+
 			else:
 				visitados += [v_atual]
 			
 			respostas.append(list(fila))
 
-			if fila:
+			if len(fila) > 0:
 				v_atual = fila.pop(0)
 			else:
 				break
