@@ -201,7 +201,7 @@ class Grafo(object):
 		v_atual = []
 		distancia = {}
 		visitados = []
-		# v_anterior = {}
+		v_anterior = {}
 		prioridade = []
 
 		#Cria peso infinito para todas as arestas
@@ -216,8 +216,6 @@ class Grafo(object):
 		while len(prioridade) > 0:
 
 			v_atual = list(prioridade.pop(0))
-			
-			print(v_atual)
 
 			if v_atual[0] in self.lista_adjacencia:
 
@@ -231,7 +229,21 @@ class Grafo(object):
 						if distancia[i[0]] > (distancia[v_atual[0]] + i[1]):
 							distancia[i[0]] = distancia[v_atual[0]] + i[1]
 							prioridade.append( [ i[0], distancia[i[0]] ] )
+							v_anterior[i[0]] = v_atual[0]
+
 			else:
 				continue
-			
+
+		caminho = [destino]
+		v_aux = destino
+		
+		while(True):
+
+			if v_aux in v_anterior:
+				caminho.append( v_anterior[v_aux] )
+				v_aux = v_anterior[v_aux]
+			else:
+				break
+
 		print(distancia[destino])
+		print(caminho)

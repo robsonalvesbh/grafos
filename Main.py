@@ -66,7 +66,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("distancia", dados)
 
 			if resposta != False:
-				#time.sleep( 1 )
+				time.sleep( 1 )
 				print("Calcula distancia - [ OK ]")
 
 	#executa o algoritmo que encontra uma rota entre 2 vertices
@@ -87,7 +87,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("largura", dados)
 
 			if resposta != False:
-				#time.sleep( 1 )
+				time.sleep( 1 )
 				print("Busca em largura  - [ OK ]")
 
 	def busca_profundidade(self, lista):
@@ -100,7 +100,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("profundidade", dados)
 
 			if resposta != False:
-				#time.sleep( 1 )
+				time.sleep( 1 )
 				print("Busca em profundidade  - [ OK ]")
 
 	def dijkstra(self, origem, destino):
@@ -145,5 +145,5 @@ if __name__ == "__main__":
 	controller.monta_grafo(dados)
 	#controller.encontra_caminho(0, 3)
 	#controller.calcula_distancia([0,1,2,0,1,2,3])
-	#controller.executa_comandos(dados['comandos'])
-	controller.dijkstra(0,3)
+	# controller.executa_comandos(dados['comandos'])
+	controller.dijkstra(0,7)
