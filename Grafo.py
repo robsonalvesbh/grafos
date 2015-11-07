@@ -10,6 +10,7 @@ class Grafo(object):
 
 	def cria_lista_adjacencia(self):
 		#percorro a lista de arestas
+		print(self.dados['arestas'])
 		for i in self.dados['arestas']:
 			#verifico se elas não possui peso
 			if self.dados['tem_peso'] == False:
@@ -21,14 +22,19 @@ class Grafo(object):
 				self.lista_adjacencia[i[0]].append([i[1], 1])
 				#verifico se o grafo é direcionado ou um digrafo
 				if self.dados['eh_digrafo'] == False:
+					# verifico se o vertice destino está na lista de adjacencia, se nao tiver crio um lista para ela
 					if not i[1] in self.lista_adjacencia:
-						self.lista_adjacencia[i[1]] = []
-					if not i[0] in self.lista_adjacencia[i[1]]:
+						self.lista_adjacencia[i[1]] = [] #cria a lista vazia
+					#se nao existi o elemento origem na lista destino, adiciono ele
+					if not i[0] in self.lista_adjacencia[i[1]]: 
 						self.lista_adjacencia[i[1]].append([i[0], 1])
 			else:
+				# print(i)
+				# print(self.lista_adjacencia)
 				if not i[0] in self.lista_adjacencia:
 					self.lista_adjacencia[i[0]] = []
-				self.lista_adjacencia[i[0]].append([i[1], i[2]])
+
+				self.lista_adjacencia[i[0]].append([i[1], int( i[2] )])
 
 				if self.dados['eh_digrafo'] == False:
 					if not i[1] in self.lista_adjacencia:

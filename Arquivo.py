@@ -64,10 +64,6 @@ class Arquivo(object):
 			#joga para dentro da lista self.vertices eliminando os 2 ultimos caracteres da lista que são ';\n'
 			self.vertices.append( ultimo_elemento[:-2] )
 
-		
-		#percorre o vetor self.vertices e transforma-os seus itens em inteiros
-		for i in range(len(self.vertices)):
-			self.vertices[i] = int(self.vertices[i])
 		#vertice[1] retorna "true ;" o split(' ') transforma ele em uma lista ['true', ';']
 		#fazendo vertices[1].split(' ')[0] eu pego a primeira posicao que é true
 		#e como uma string é nada mais que uma lista
@@ -95,14 +91,14 @@ class Arquivo(object):
 			#verifica se o ultimo elemento (peso da aresta) é igual ',\n' ou igual ';\n'
 			if ultimo_elemento == ',\n' or ultimo_elemento == ';\n' or self.tem_peso == False:
 				#se a aresta não tiver peso adiciono peso 1
-				lista_aux.append( '1' )
+				lista_aux.append( 1 )
 			else:
 				#se tiver adiciono o peso
 				lista_aux.append( ultimo_elemento[:-2] )
 
-			#percorre o vetor lista_aux e transforma-os seus itens em inteiros
-			for i in range(len(lista_aux)):
-				lista_aux[i] = int(lista_aux[i])
+			# #percorre o vetor lista_aux e transforma-os seus itens em inteiros
+			# for i in range(len(lista_aux)):
+			# 	lista_aux[i] = int(lista_aux[i])
 
 			#em cada loop do for adiciono a lista contendo (vertice_origem, vertice_destino, peso) na lista self.arestas
 			self.arestas.append(lista_aux)
@@ -119,8 +115,8 @@ class Arquivo(object):
 			#depois de separar o ultimo comendo pego o primeiro elemento
 			lista_aux.append( ultimo_elemento[0] )
 
-			for j in range(len(lista_aux)):
-				lista_aux[j] = int(lista_aux[j])
+			# for j in range(len(lista_aux)):
+			# 	lista_aux[j] = int(lista_aux[j])
 
 			self.comandos.append({'algoritmo': aux[0], 'lista': lista_aux})
 

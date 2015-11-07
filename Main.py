@@ -33,11 +33,11 @@ class Main:
 
 		#tratando os erros
 		except IOError:
-			os.system("cls")
+			# os.system("cls")
 			print("\nArquivos de entradas invalidos ou corrompidos")
 			sys.exit(0)
 		except Erros as E:
-			os.system("cls")
+			# os.system("cls")
 			print(E.arquivo_vazio())
 			sys.exit(0)
 
@@ -118,7 +118,7 @@ class Main:
 				print("Busca menor caminho (DIJKSTRA)  - [ OK ]")
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
-		os.system("cls")
+		# os.system("cls")
 		print ("\nExecutando algoritmos: \n")
 		for i in comandos:
 			self.chama_funcoes(i)
@@ -146,7 +146,7 @@ try:
 	if len(sys.argv) != 3:
 		raise Erros
 except Erros as E:
-	os.system("cls")
+	# os.system("cls")
 	print(E.argvs_invalidos())
 	sys.exit(0)
 
