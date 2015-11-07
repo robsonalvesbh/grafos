@@ -248,5 +248,4 @@ class Grafo(object):
 			else:
 				break
 
-		print(distancia[destino])
-		print(caminho)
+		return {'caminho': caminho, 'distancia': distancia[destino]}

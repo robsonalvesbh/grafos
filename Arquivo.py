@@ -77,7 +77,6 @@ class Arquivo(object):
 		#mesmo exemplo do digrafo acima
 		self.tem_peso = vertices[2].split(' ')[0][0]
 		
-
 	#função que pega as arestas
 	def pega_arestas(self, arestas):
 		#percorre a lista de arestas 
@@ -158,6 +157,8 @@ class Arquivo(object):
 				self.grava_busca_largura(arq, resposta)
 			if algoritmo == "profundidade":
 				self.grava_busca_profundidade(arq, resposta)
+			if algoritmo == "menorcaminho":
+				self.grava_menor_caminho(arq, resposta)
 
 		except:
 
@@ -218,4 +219,21 @@ class Arquivo(object):
 				arquivo.write('%s ' % str(j))
 			arquivo.write('\n')
 			
+		arquivo.write('\n')
+
+	def grava_menor_caminho(self, arquivo, resposta):
+
+		arquivo.write('DIJKSTRA ')
+
+		for i in resposta['vertices']:
+			arquivo.write('%s ' % str(i))
+
+		arquivo.write('\n')
+
+		for i in reversed(resposta['resposta']['caminho']):
+			arquivo.write('%s ' % str(i))
+
+		arquivo.write('\n')	
+		arquivo.write('%s ' % str(resposta['resposta']['distancia']))
+
 		arquivo.write('\n')

@@ -66,7 +66,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("distancia", dados)
 
 			if resposta != False:
-				# time.sleep( 1 )
+				time.sleep( 1 )
 				print("Calcula distancia - [ OK ]")
 
 	#executa o algoritmo que encontra uma rota entre 2 vertices
@@ -87,7 +87,7 @@ class Main:
 			resposta = self.grava_resposta_arquivo("largura", dados)
 
 			if resposta != False:
-				# time.sleep( 1 )
+				time.sleep( 1 )
 				print("Busca em largura  - [ OK ]")
 
 	def busca_profundidade(self, lista):
@@ -100,12 +100,22 @@ class Main:
 			resposta = self.grava_resposta_arquivo("profundidade", dados)
 
 			if resposta != False:
-				# time.sleep( 1 )
+				time.sleep( 1 )
 				print("Busca em profundidade  - [ OK ]")
 
-	def dijkstra(self, origem, destino):
-		self.grafo.dijkstra(origem, destino)
+	def menor_caminho(self, origem, destino):
 
+		result = self.grafo.dijkstra(origem, destino)
+
+		if result == None:
+			print("Grafo Invalido")
+		else:
+			dados = {"vertices": [origem, destino], "resposta": result}
+			resposta = self.grava_resposta_arquivo("menorcaminho", dados)
+
+			if resposta != False:
+				time.sleep( 1 )
+				print("Busca menor caminho (DIJKSTRA)  - [ OK ]")
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
 		os.system("cls")
@@ -127,6 +137,9 @@ class Main:
 		if comando['algoritmo'].lower() == "profundidade":
 			self.busca_profundidade(comando['lista'])
 
+		if comando['algoritmo'].lower() == "menorcaminho":
+			v = comando['lista']
+			self.menor_caminho(v[0], v[1])
 
 #Criando objeto da classe Main e chamando os metodos
 try:
@@ -146,4 +159,4 @@ if __name__ == "__main__":
 	#controller.encontra_caminho(0, 3)
 	#controller.calcula_distancia([0,1,2,0,1,2,3])
 	controller.executa_comandos(dados['comandos'])
-	#controller.dijkstra(0,7)
+	# controller.dijkstra(0,3)
