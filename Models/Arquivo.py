@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Erros import *
 
 class Arquivo(object):
@@ -96,10 +98,6 @@ class Arquivo(object):
 				#se tiver adiciono o peso
 				lista_aux.append( ultimo_elemento[:-2] )
 
-			# #percorre o vetor lista_aux e transforma-os seus itens em inteiros
-			# for i in range(len(lista_aux)):
-			# 	lista_aux[i] = int(lista_aux[i])
-
 			#em cada loop do for adiciono a lista contendo (vertice_origem, vertice_destino, peso) na lista self.arestas
 			self.arestas.append(lista_aux)
 
@@ -114,9 +112,6 @@ class Arquivo(object):
 			ultimo_elemento = aux[len(aux) - 1].split(';')
 			#depois de separar o ultimo comendo pego o primeiro elemento
 			lista_aux.append( ultimo_elemento[0] )
-
-			# for j in range(len(lista_aux)):
-			# 	lista_aux[j] = int(lista_aux[j])
 
 			self.comandos.append({'algoritmo': aux[0], 'lista': lista_aux})
 

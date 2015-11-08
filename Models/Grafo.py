@@ -10,7 +10,6 @@ class Grafo(object):
 
 	def cria_lista_adjacencia(self):
 		#percorro a lista de arestas
-		print(self.dados['arestas'])
 		for i in self.dados['arestas']:
 			#verifico se elas não possui peso
 			if self.dados['tem_peso'] == False:

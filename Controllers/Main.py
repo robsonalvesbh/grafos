@@ -4,21 +4,24 @@ import sys
 import os
 import time
 
-#Modulos 
+# #Modulos 
+# from Arquivo import *
+# from Grafo import *
+from Erros import *
 from Arquivo import *
 from Grafo import *
-from Erros import *
-
+from Interface import *
 
 #Classe principal MAIN
-class Main:
+class Main(object):
 
 	#construtor da classe, recebe como parametro os arquivos de entrada e saida
-	def __init__(self, arquivo_entrada, arquivo_saida):
+	def __init__(self, arquivo_entrada, arquivo_saida, interface):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida =  arquivo_saida
 		self.arquivo = Arquivo( self.arquivo_entrada, self.arquivo_saida ) #estancia da classe Arquivo
 		self.grafo = None
+		self.interface = interface
 
 	#funcao que que valida os arquivos de entrada e saida
 	def validar_arquivo(self):
@@ -33,11 +36,11 @@ class Main:
 
 		#tratando os erros
 		except IOError:
-			# os.system("cls")
+			os.system("cls")
 			print("\nArquivos de entradas invalidos ou corrompidos")
 			sys.exit(0)
 		except Erros as E:
-			# os.system("cls")
+			os.system("cls")
 			print(E.arquivo_vazio())
 			sys.exit(0)
 
@@ -60,14 +63,13 @@ class Main:
 		result = self.grafo.calcula_distancia(caminho)
 
 		if result == None:
-			print("Caminho Invalido")
+			self.interface.lista_respostas.append('Calcula distancia - [ ERROR ]')
 		else:
 			dados = {"caminho": lista_caminho, "distancia": result}
 			resposta = self.grava_resposta_arquivo("distancia", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
-				print("Calcula distancia - [ OK ]")
+				self.interface.lista_respostas.append('Calcula distancia - [ OK ]')
 
 	#executa o algoritmo que encontra uma rota entre 2 vertices
 	def encontra_caminho(self, v_origem, v_destino):
@@ -81,50 +83,47 @@ class Main:
 		vertices = list(lista)
 		result = self.grafo.busca_em_largura( lista[0], lista[1] )
 		if result == None:
-			print("Caminho Invalido")
+			self.interface.lista_respostas.append('Busca em largura  - [ ERROR ]')
 		else:
 			dados = {"vertices": vertices, "resposta": result}
 			resposta = self.grava_resposta_arquivo("largura", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
-				print("Busca em largura  - [ OK ]")
+				self.interface.lista_respostas.append('Busca em largura  - [ OK ]')
 
 	def busca_profundidade(self, lista):
 		vertices = list(lista)
 		result = self.grafo.busca_em_profundidade( lista[0], lista[1] )
 		if result == None:
-			print("Caminho Invalido")
+			self.interface.lista_respostas.append('Busca em profundidade  - [ ERROR ]')
 		else:
 			dados = {"vertices": vertices, "resposta": result}
 			resposta = self.grava_resposta_arquivo("profundidade", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
-				print("Busca em profundidade  - [ OK ]")
+				self.interface.lista_respostas.append('Busca em profundidade  - [ OK ]')
 
 	def menor_caminho(self, origem, destino):
 
 		result = self.grafo.dijkstra(origem, destino)
 
 		if result == None:
-			print("Grafo Invalido")
+			self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ ERROR ]')
 		else:
 			dados = {"vertices": [origem, destino], "resposta": result}
 			resposta = self.grava_resposta_arquivo("menorcaminho", dados)
 
 			if resposta != False:
-				time.sleep( 1 )
-				print("Busca menor caminho (DIJKSTRA)  - [ OK ]")
+				self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ OK ]')
+
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
-		# os.system("cls")
-		print ("\nExecutando algoritmos: \n")
+		os.system("cls")
+
 		for i in comandos:
 			self.chama_funcoes(i)
 
-		print("\nArquivo de saida criado com sucesso")
-
+		print("Executando...")
 
 	def chama_funcoes(self, comando):
 		
@@ -141,22 +140,3 @@ class Main:
 			v = comando['lista']
 			self.menor_caminho(v[0], v[1])
 
-#Criando objeto da classe Main e chamando os metodos
-try:
-	if len(sys.argv) != 3:
-		raise Erros
-except Erros as E:
-	# os.system("cls")
-	print(E.argvs_invalidos())
-	sys.exit(0)
-
-#Estanciando Objeto e chamando as funções
-if __name__ == "__main__":
-	controller = Main( sys.argv[1], sys.argv[2] )
-	controller.validar_arquivo()
-	dados = controller.tratar_dados_de_entrada()
-	controller.monta_grafo(dados)
-	#controller.encontra_caminho(0, 3)
-	#controller.calcula_distancia([0,1,2,0,1,2,3])
-	controller.executa_comandos(dados['comandos'])
-	# controller.dijkstra(0,3)
