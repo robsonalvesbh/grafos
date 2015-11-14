@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from Erros import *
-
 class Arquivo(object):
 
 	"""Método construtor da classe"""

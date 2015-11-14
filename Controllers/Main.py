@@ -7,7 +7,6 @@ import time
 # #Modulos 
 # from Arquivo import *
 # from Grafo import *
-from Erros import *
 from Arquivo import *
 from Grafo import *
 from Interface import *
@@ -32,16 +31,12 @@ class Main(object):
 			s = open(self.arquivo_saida, "w")
 			#verifica se existe conteudo no arquivo de entrada
 			if len(e.readline()) == 0:
-				raise Erros #lancando erro
+				raise IOError
 
 		#tratando os erros
 		except IOError:
 			os.system("cls")
 			print("\nArquivos de entradas invalidos ou corrompidos")
-			sys.exit(0)
-		except Erros as E:
-			os.system("cls")
-			print(E.arquivo_vazio())
 			sys.exit(0)
 
 	#chama o metodo que ler os dados do arquivo de entrada
