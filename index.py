@@ -23,4 +23,5 @@ if __name__ == "__main__":
 	controller.monta_grafo(dados)
 	controller.executa_comandos(dados['comandos'])
 
+	interface.setDados(dados)
 	tk.mainloop()

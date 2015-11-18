@@ -39,7 +39,7 @@ class Grafo(object):
 					if not i[1] in self.lista_adjacencia:
 						self.lista_adjacencia[i[1]] = []
 					if not i[0] in self.lista_adjacencia[i[1]]:
-						self.lista_adjacencia[i[1]].append([i[0], i[2]])
+						self.lista_adjacencia[i[1]].append([i[0],int( i[2] )])
 
 	def calcula_distancia(self, caminho):
 

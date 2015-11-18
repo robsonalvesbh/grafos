@@ -2,20 +2,19 @@ DISTANCIA 0 1 2
 21
 
 DISTANCIA 0 1 2 0 2 
-61
+55
 
 LARGURA 0 3 
 0 
-1 2 2 
-2 2 2 3 
-2 2 3 3 
+1 2 
+2 2 3 
 2 3 3 
 3 3 
 
 PROFUNDIDADE 0 2 
 0 
-1 2 2 
-2 3 2 2 
+1 2 
+2 3 2 
 
 DIJKSTRA 0 3 
 0 1 3 

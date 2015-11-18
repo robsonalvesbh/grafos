@@ -1,5 +1,7 @@
 from tkinter import *
-import time
+import networkx as nx
+import matplotlib.pyplot as plt
+
 
 BACKGROUND = '#F9F9F9'
 
@@ -7,6 +9,9 @@ class Interface(object):
 
 	def __init__(self, instancia):
 		
+		# dados do grafo
+		self.dados = None
+
 		#configurações da janeça
 		self.janela(instancia)
 
@@ -49,6 +54,9 @@ class Interface(object):
 		instancia.title('Grafos')
 		instancia['bg'] = BACKGROUND
 
+	def setDados(self, dados):
+		self.dados = dados
+
 	def algoritmos(self):
 		
 		if len(self.lista_respostas) > 0:
@@ -65,3 +73,25 @@ class Interface(object):
 			arq['fg'] = 'green'
 			arq['font'] = ('Helvetica', '16')
 			arq.pack()
+
+			self.btnExec['text'] = 'Desenhar o Grafo'
+			self.btnExec['command'] = self.plotar_grafo
+
+	def plotar_grafo (self):
+
+		# verifica se é um grafo direcionado ou não
+		if self.dados['eh_digrafo'] == True:
+			G = nx.DiGraph()
+		else:
+			G = nx.Graph()
+		
+		# Adiciona os vertices ao grafo
+		G.add_nodes_from(self.dados['vertices'])
+
+		# Adiciona as arestas
+		for aresta in self.dados['arestas']:
+			G.add_edge(aresta[0],aresta[1],weight=aresta[2])
+
+		# desenha e exibe
+		nx.draw_networkx(G)
+		plt.show()

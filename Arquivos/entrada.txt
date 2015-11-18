@@ -1,6 +1,6 @@
 GRAFO
 0 1 2 3;
-true ;
+false ;
 true ;
 
 ARESTAS

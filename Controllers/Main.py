@@ -35,7 +35,7 @@ class Main(object):
 
 		#tratando os erros
 		except IOError:
-			os.system("cls")
+			# os.system("cls")
 			print("\nArquivos de entradas invalidos ou corrompidos")
 			sys.exit(0)
 
@@ -113,7 +113,7 @@ class Main(object):
 
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
-		os.system("cls")
+		# os.system("cls")
 
 		for i in comandos:
 			self.chama_funcoes(i)
