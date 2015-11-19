@@ -47,7 +47,7 @@ class Main(object):
 	def grava_resposta_arquivo(self, algoritmo, resposta):
 		return self.arquivo.grava_saida(algoritmo, resposta)
 
-	#monta a lista de adjacencia
+	# #monta a lista de adjacencia
 	def monta_grafo(self, dados):
 		self.grafo = Grafo(dados) #instancia da classe Grafo
 		self.grafo.cria_lista_adjacencia() #metodo que cria a lista de adjacencia
@@ -110,6 +110,10 @@ class Main(object):
 
 			if resposta != False:
 				self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ OK ]')
+
+	# def gerar_prim(self, origem):
+	# 	self.grafo.prim( origem )
+		
 
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):

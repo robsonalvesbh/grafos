@@ -254,3 +254,39 @@ class Grafo(object):
 				break
 
 		return {'caminho': caminho, 'distancia': distancia[destino]}
+
+	def prim(self, origem):
+
+		visitados = [str(origem)]
+		vertices = list(self.dados['vertices'])
+		vertices.remove(str(origem))
+
+		while len(vertices) > 0:
+
+			a_menor = math.inf
+			v_menor = None
+			v_atual = None
+
+			for v in visitados:
+				if v in self.lista_adjacencia:
+					for i in self.lista_adjacencia[v]:
+						# print(i)
+						if not i[0] in visitados:
+
+							if i[1] < a_menor:
+								a_menor = i[1]
+								v_menor = i[0]
+								v_atual = v
+
+			print(v_atual, end=" ")								
+			print(v_menor, end=" ")
+			print(a_menor)
+
+			visitados.append(v_menor)
+			vertices.remove(v_menor)
+			
+
+		# print(self.lista_adjacencia)
+
+
+

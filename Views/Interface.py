@@ -36,21 +36,33 @@ class Interface(object):
 		self.btnExec = Button(self.ArquivoFrame)
 		self.btnExec['text'] = 'Gerar arquivo de saida'
 		self.btnExec['command'] = self.algoritmos
-		# self.btnExec.bind("<Button-1>", self.algoritmos)
-		self.btnExec['width'] = 40
+		self.btnExec['width'] = 30
 		self.btnExec['height'] = 3
-		self.btnExec['bg'] = BACKGROUND
-		self.btnExec.pack()
+		self.btnExec['bd'] = 0
+		self.btnExec['fg'] = '#fff'
+		self.btnExec['bg'] = '#2C82C9'
+		self.btnExec.pack(side = LEFT)
 
+		self.btnCreate = Button(self.ArquivoFrame)
+		self.btnCreate['text'] = 'Criar grafo'
+		self.btnCreate['width'] = 30
+		self.btnCreate['height'] = 3
+		self.btnCreate['bd'] = 0
+		self.btnCreate['fg'] = '#fff'
+		self.btnCreate['bg'] = '#2969B0'
+		self.btnCreate.pack(side = LEFT)
+
+		# resultado leitura arquivo
 		self.algoritmosFrame = Frame(instancia)
 		self.algoritmosFrame['pady'] = '15'
 		self.algoritmosFrame['bg'] = BACKGROUND
 		self.algoritmosFrame.pack()
 
+		# lista de respostas
 		self.lista_respostas = []
 
 	def janela(self, instancia):
-		instancia.geometry("600x350")
+		instancia.geometry("600x400")
 		instancia.title('Grafos')
 		instancia['bg'] = BACKGROUND
 
@@ -75,6 +87,7 @@ class Interface(object):
 			arq.pack()
 
 			self.btnExec['text'] = 'Desenhar o Grafo'
+			self.btnExec['bg'] = '#00A885'
 			self.btnExec['command'] = self.plotar_grafo
 
 	def plotar_grafo (self):

@@ -12,7 +12,6 @@ sys.path.append('Views')
 from Main import *
 
 
-
 if __name__ == '__main__':
 	unittest.main()
 
