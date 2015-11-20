@@ -4,9 +4,6 @@ import sys
 import os
 import time
 
-# #Modulos 
-# from Arquivo import *
-# from Grafo import *
 from Arquivo import *
 from Grafo import *
 from Interface import *
@@ -15,7 +12,7 @@ from Interface import *
 class Main(object):
 
 	#construtor da classe, recebe como parametro os arquivos de entrada e saida
-	def __init__(self, arquivo_entrada, arquivo_saida, interface):
+	def __init__(self, arquivo_entrada = None, arquivo_saida = None, interface = None):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida =  arquivo_saida
 		self.arquivo = Arquivo( self.arquivo_entrada, self.arquivo_saida ) #estancia da classe Arquivo
@@ -35,7 +32,7 @@ class Main(object):
 
 		#tratando os erros
 		except IOError:
-			# os.system("cls")
+			os.system("cls")
 			print("\nArquivos de entradas invalidos ou corrompidos")
 			sys.exit(0)
 
@@ -48,8 +45,8 @@ class Main(object):
 		return self.arquivo.grava_saida(algoritmo, resposta)
 
 	# #monta a lista de adjacencia
-	def monta_grafo(self, dados):
-		self.grafo = Grafo(dados) #instancia da classe Grafo
+	def monta_grafo(self, dados_do_grafo):
+		self.grafo = Grafo(dados_do_grafo) #instancia da classe Grafo
 		self.grafo.cria_lista_adjacencia() #metodo que cria a lista de adjacencia
 
 	#Executa algoritmo que calcula a distancia de um determinado caminho
@@ -114,7 +111,6 @@ class Main(object):
 	# def gerar_prim(self, origem):
 	# 	self.grafo.prim( origem )
 		
-
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
 		# os.system("cls")

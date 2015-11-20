@@ -20,7 +20,6 @@ if __name__ == "__main__":
 	controller = Main( sys.argv[1], sys.argv[2], interface )
 	controller.validar_arquivo()
 	dados = controller.tratar_dados_de_entrada()
-
 	controller.monta_grafo(dados)
 	# controller.gerar_prim(2);
 	controller.executa_comandos(dados['comandos'])
