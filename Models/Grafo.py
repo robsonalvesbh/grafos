@@ -9,55 +9,64 @@ class Grafo(object):
 		self.lista_adjacencia = {}
 
 	def cria_lista_adjacencia(self):
-		#percorro a lista de arestas
-		for i in self.dados['arestas']:
-			#verifico se elas não possui peso
-			if self.dados['tem_peso'] == False:
-				#verifica se o vertice de origem está presente na lista de adjacencia
-				if not i[0] in self.lista_adjacencia:
-					#se nao tiver crio uma lista vazia para este vetor
-					self.lista_adjacencia[i[0]] = []
-				#adiciono na lista do vertice de origem, o vertice de destino e o peso 1
-				self.lista_adjacencia[i[0]].append([i[1], 1])
-				#verifico se o grafo é direcionado ou um digrafo
-				if self.dados['eh_digrafo'] == False:
-					# verifico se o vertice destino está na lista de adjacencia, se nao tiver crio um lista para ela
-					if not i[1] in self.lista_adjacencia:
-						self.lista_adjacencia[i[1]] = [] #cria a lista vazia
-					#se nao existi o elemento origem na lista destino, adiciono ele
-					if not i[0] in self.lista_adjacencia[i[1]]: 
-						self.lista_adjacencia[i[1]].append([i[0], 1])
-			else:
-				# print(i)
-				# print(self.lista_adjacencia)
-				if not i[0] in self.lista_adjacencia:
-					self.lista_adjacencia[i[0]] = []
 
-				self.lista_adjacencia[i[0]].append([i[1], int( i[2] )])
+		try:
+			#percorro a lista de arestas
+			for i in self.dados['arestas']:
+				#verifico se elas não possui peso
+				if self.dados['tem_peso'] == False:
+					#verifica se o vertice de origem está presente na lista de adjacencia
+					if not i[0] in self.lista_adjacencia:
+						#se nao tiver crio uma lista vazia para este vetor
+						self.lista_adjacencia[i[0]] = []
+					#adiciono na lista do vertice de origem, o vertice de destino e o peso 1
+					self.lista_adjacencia[i[0]].append([i[1], 1])
+					#verifico se o grafo é direcionado ou um digrafo
+					if self.dados['eh_digrafo'] == False:
+						# verifico se o vertice destino está na lista de adjacencia, se nao tiver crio um lista para ela
+						if not i[1] in self.lista_adjacencia:
+							self.lista_adjacencia[i[1]] = [] #cria a lista vazia
+						#se nao existi o elemento origem na lista destino, adiciono ele
+						if not i[0] in self.lista_adjacencia[i[1]]: 
+							self.lista_adjacencia[i[1]].append([i[0], 1])
+				else:
+					if not i[0] in self.lista_adjacencia:
+						self.lista_adjacencia[i[0]] = []
 
-				if self.dados['eh_digrafo'] == False:
-					if not i[1] in self.lista_adjacencia:
-						self.lista_adjacencia[i[1]] = []
-					if not i[0] in self.lista_adjacencia[i[1]]:
-						self.lista_adjacencia[i[1]].append([i[0],int( i[2] )])
+					self.lista_adjacencia[i[0]].append([i[1], int( i[2] )])
+
+					if self.dados['eh_digrafo'] == False:
+						if not i[1] in self.lista_adjacencia:
+							self.lista_adjacencia[i[1]] = []
+						if not i[0] in self.lista_adjacencia[i[1]]:
+							self.lista_adjacencia[i[1]].append([i[0],int( i[2] )])
+
+			return True
+		except:
+			return False
+
 
 	def calcula_distancia(self, caminho):
-
+		
 		caminho_entrada = caminho
 		v_atual = caminho.pop(0)
 		distancia = 0
 
-		while caminho:
+		try:
+			while caminho:
 
-			for aresta in self.lista_adjacencia[v_atual]:
+				for aresta in self.lista_adjacencia[v_atual]:
 
-				if caminho[0] == aresta[0]:
-					distancia += aresta[1]
-					v_atual = caminho.pop(0)
-					break;
+					if caminho[0] == aresta[0]:
+						distancia += aresta[1]
+						v_atual = caminho.pop(0)
+						break;
 
-		return distancia
+			return distancia
+		except:
+			return None
 
+	"""
 	def encontra_caminho(self, origem, destino):
 		
 		caminho = []
@@ -93,8 +102,7 @@ class Grafo(object):
 					distancia += aresta[1]
 					caminho += [v_atual]
 					break
-
-		return {"caminho": caminho, "distancia": distancia}
+	"""
 
 	def busca_em_largura(self, origem, destino):
 
@@ -103,26 +111,29 @@ class Grafo(object):
 		visitados = []
 		respostas = [[v_atual]]
 
-		while v_atual != destino:
+		try:
+			while v_atual != destino:
 
-			if v_atual in self.lista_adjacencia:
-				if not v_atual in visitados:
-					for i in self.lista_adjacencia[v_atual]:
-						if i[0] not in visitados:
-							visitados += [v_atual]
-							fila.append(i[0])
-			else:
-				visitados += [v_atual]
-				
-			respostas.append(list(fila))
+				if v_atual in self.lista_adjacencia:
+					if not v_atual in visitados:
+						for i in self.lista_adjacencia[v_atual]:
+							if i[0] not in visitados:
+								visitados += [v_atual]
+								fila.append(i[0])
+				else:
+					visitados += [v_atual]
 
-			if fila:
-				v_atual = fila.pop(0)
-			else:
-				break
+				if fila:
+					respostas.append(list(fila))
+					v_atual = fila.pop(0)
+				else:
+					break
 
-		return respostas
+			return respostas
+		except:
+			return None
 
+	""" profundidade usando pilha
 	def __busca_em_profundidade(self, origem, destino):
 
 		v_atual = origem
@@ -170,7 +181,8 @@ class Grafo(object):
 					break
 			
 
-		return respostas
+		return respostas 
+	"""
 
 	def busca_em_profundidade(self, origem, destino):
 
@@ -179,30 +191,30 @@ class Grafo(object):
 		respostas = [[origem]]
 		v_atual = origem
 
-		while v_atual != destino:
+		try:
+			while v_atual != destino:
 
-			if v_atual in self.lista_adjacencia:
-				
-				if not v_atual in visitados:
-					indice = 0
-					for i in self.lista_adjacencia[v_atual]:
-						if i[0] not in visitados:
-							visitados += [v_atual]
-							fila.insert(indice, i[0])
-							indice += 1
+				if v_atual in self.lista_adjacencia:
+					
+					if not v_atual in visitados:
+						indice = 0
+						for i in self.lista_adjacencia[v_atual]:
+							if i[0] not in visitados:
+								visitados += [v_atual]
+								fila.insert(indice, i[0])
+								indice += 1
+				else:
+					visitados += [v_atual]
 
-			else:
-				visitados += [v_atual]
+				if len(fila) > 0:
+					respostas.append(list(fila))
+					v_atual = fila.pop(0)
+				else:
+					break
 			
-			respostas.append(list(fila))
-
-			if len(fila) > 0:
-				v_atual = fila.pop(0)
-			else:
-				break
-		
-
-		return respostas
+			return respostas
+		except:
+			return None
 
 	def dijkstra(self, origem, destino):
 
@@ -221,72 +233,101 @@ class Grafo(object):
 
 		prioridade.append([origem, distancia[origem]])
 
-		while len(prioridade) > 0:
+		try:
+			while len(prioridade) > 0:
 
-			v_atual = list(prioridade.pop(0))
+				v_atual = list(prioridade.pop(0))
 
-			if v_atual[0] in self.lista_adjacencia:
+				if v_atual[0] in self.lista_adjacencia:
 
-				if not v_atual[0] in visitados:
+					if not v_atual[0] in visitados:
 
-					visitados.append(v_atual)
-					a_menor = math.inf
+						visitados.append(v_atual)
 
-					for i in self.lista_adjacencia[v_atual[0]]:
+						for i in self.lista_adjacencia[v_atual[0]]:
 
-						if distancia[i[0]] > (distancia[v_atual[0]] + i[1]):
-							distancia[i[0]] = distancia[v_atual[0]] + i[1]
-							prioridade.append( [ i[0], distancia[i[0]] ] )
-							v_anterior[i[0]] = v_atual[0]
+							if distancia[i[0]] > (distancia[v_atual[0]] + i[1]):
+								
+								distancia[i[0]] = distancia[v_atual[0]] + i[1]
+								prioridade.append( [ i[0], distancia[i[0]] ] )
+								v_anterior[i[0]] = v_atual[0]
 
-			else:
-				continue
+				else:
+					continue
 
-		caminho = [destino]
-		v_aux = destino
-		
-		while(True):
+			caminho = [destino]
+			v_aux = destino
 
-			if v_aux in v_anterior:
-				caminho.append( v_anterior[v_aux] )
-				v_aux = v_anterior[v_aux]
-			else:
-				break
+			while(True):
 
-		return {'caminho': caminho, 'distancia': distancia[destino]}
+				if v_aux in v_anterior:
+					caminho.append( v_anterior[v_aux] )
+					v_aux = v_anterior[v_aux]
+				else:
+					break
+
+			return {'caminho': caminho, 'distancia': distancia[destino]}
+		except:
+			return None
 
 	def prim(self, origem):
 
-		visitados = [str(origem)]
-		vertices = list(self.dados['vertices'])
-		vertices.remove(str(origem))
+		try:
 
-		while len(vertices) > 0:
+			visitados = [str(origem)]
+			vertices = list(self.dados['vertices'])
+			vertices.remove(str(origem))
+			distancia = 0
+			respostas = {'caminho': [], 'distancia': None}
 
-			a_menor = math.inf
-			v_menor = None
-			v_atual = None
+			while len(vertices) > 0:
 
-			for v in visitados:
-				if v in self.lista_adjacencia:
-					for i in self.lista_adjacencia[v]:
-						# print(i)
-						if not i[0] in visitados:
+				a_menor = math.inf
+				v_menor = None
+				v_atual = None
 
-							if i[1] < a_menor:
-								a_menor = i[1]
-								v_menor = i[0]
-								v_atual = v
+				for v in visitados:
+					if v in self.lista_adjacencia:
+						for i in self.lista_adjacencia[v]:
 
-			print(v_atual, end=" ")								
-			print(v_menor, end=" ")
-			print(a_menor)
+							if not i[0] in visitados:
 
-			visitados.append(v_menor)
-			vertices.remove(v_menor)
+								if i[1] < a_menor:
+									a_menor = i[1]
+									v_menor = i[0]
+									v_atual = v
+									distancia += i[1]
+
+				respostas['caminho'].append( list([v_atual, v_menor, a_menor]) )
+
+				visitados.append(v_menor)
+				vertices.remove(v_menor)
 			
+			respostas['distancia'] = distancia
 
-		# print(self.lista_adjacencia)
+			return respostas
+		except:
+			return None
 
+	def detecta_ciclo(self, vertices):
 
+		caminho = list(vertices)
+		visitados = []
+		v_atual = None
 
+		while len(caminho) > 0:
+			v_atual = caminho.pop(0)
+
+			if not v_atual in visitados:
+				visitados.append(v_atual)
+			else:
+				return True
+
+		return False
+
+	def kruskal(self):
+
+		#Cria peso infinito para todas as arestas
+		for i in self.lista_adjacencia:
+			for j in self.lista_adjacencia[i]:
+				print(j)

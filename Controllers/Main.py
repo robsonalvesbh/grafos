@@ -46,8 +46,13 @@ class Main(object):
 
 	# #monta a lista de adjacencia
 	def monta_grafo(self, dados_do_grafo):
-		self.grafo = Grafo(dados_do_grafo) #instancia da classe Grafo
-		self.grafo.cria_lista_adjacencia() #metodo que cria a lista de adjacencia
+		
+		if len(dados_do_grafo) > 0:
+			self.grafo = Grafo(dados_do_grafo) #instancia da classe Grafo
+			self.grafo.cria_lista_adjacencia() #metodo que cria a lista de adjacencia
+			return True
+		else:
+			return False
 
 	#Executa algoritmo que calcula a distancia de um determinado caminho
 	def calcula_distancia(self, caminho):
@@ -56,6 +61,7 @@ class Main(object):
 
 		if result == None:
 			self.interface.lista_respostas.append('Calcula distancia - [ ERROR ]')
+			return False
 		else:
 			dados = {"caminho": lista_caminho, "distancia": result}
 			resposta = self.grava_resposta_arquivo("distancia", dados)
@@ -63,6 +69,8 @@ class Main(object):
 			if resposta != False:
 				self.interface.lista_respostas.append('Calcula distancia - [ OK ]')
 
+			return True
+			
 	#executa o algoritmo que encontra uma rota entre 2 vertices
 	def encontra_caminho(self, v_origem, v_destino):
 		result = self.grafo.encontra_caminho( v_origem, v_destino )
@@ -108,8 +116,8 @@ class Main(object):
 			if resposta != False:
 				self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ OK ]')
 
-	# def gerar_prim(self, origem):
-	# 	self.grafo.prim( origem )
+	def gerar_prim(self, origem):
+		self.grafo.prim( origem )
 		
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):

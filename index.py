@@ -22,7 +22,8 @@ if __name__ == "__main__":
 	dados = controller.tratar_dados_de_entrada()
 	controller.monta_grafo(dados)
 	# controller.gerar_prim(2);
-	controller.executa_comandos(dados['comandos'])
+	controller.kruskal();
+	# controller.executa_comandos(dados['comandos'])
 
-	interface.setDados(dados)
-	tk.mainloop()
+	# interface.setDados(dados)
+	# tk.mainloop()

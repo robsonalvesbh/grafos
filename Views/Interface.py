@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from tkinter import *
 
 from Controllers.Main import *
-from Index import *
 
 BACKGROUND = '#F9F9F9'
 
