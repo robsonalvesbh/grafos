@@ -15,15 +15,21 @@ from Main import *
 if __name__ == "__main__":
 
 	tk = Tk()
-	interface = Interface(tk)
 
-	controller = Main( sys.argv[1], sys.argv[2], interface )
-	controller.validar_arquivo()
-	dados = controller.tratar_dados_de_entrada()
-	controller.monta_grafo(dados)
-	# controller.gerar_prim(2);
-	controller.kruskal();
-	# controller.executa_comandos(dados['comandos'])
+	if len(sys.argv) == 3:
+		interface = Interface(tk, True)
+		controller = Main( interface, sys.argv[1], sys.argv[2] )
+		controller.validar_arquivo()
+		dados = controller.tratar_dados_de_entrada()
+	elif len(sys.argv) == 1:
+		interface = Interface(tk, False)
+		controller = Main( interface )
+		dados = None
+	else:
+		print('É necessário passar o arquivo de entrada e saida')
+		sys.exit(0)
 
-	# interface.setDados(dados)
-	# tk.mainloop()
+	interface.setController(controller)
+	interface.setDados(dados)
+
+	tk.mainloop()

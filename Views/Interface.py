@@ -8,8 +8,9 @@ BACKGROUND = '#F9F9F9'
 
 class Interface(object):
 
-	def __init__(self, instancia):
+	def __init__(self, instancia, exibe_gera_arquivo = True):
 		
+		self.controller = None
 		# dados do grafo
 		self.dados = None
 
@@ -39,7 +40,15 @@ class Interface(object):
 		self.btnExec['text'] = 'Gerar arquivo de saida'
 		self.formata_button(self.btnExec,'#2C82C9')
 		self.btnExec['command'] = self.algoritmos
-		self.btnExec.pack(side = LEFT)
+		if exibe_gera_arquivo == True:
+			self.btnExec.pack(side = LEFT)
+
+		#  botao informar comandos
+		self.btnComandos = Button(self.ArquivoFrame)
+		self.btnComandos['text'] = 'Gerar arquivo de saida'
+		self.formata_button(self.btnComandos,'#2C82C9')
+		self.btnComandos['command'] = self.algoritmos
+		
 
 		# botao cria grafo
 		self.btnCreate = Button(self.ArquivoFrame)
@@ -114,17 +123,29 @@ class Interface(object):
 		self.btnCriaGrafo.pack()
 
 		# lista de respostas
-		self.lista_respostas = []
+		self.lista_respostas = []	
 
 	def janela(self, instancia):
-		instancia.geometry("600x400")
+		instancia.geometry("1100x500")
 		instancia.title('Grafos')
 		instancia['bg'] = BACKGROUND
 
 	def setDados(self, dados):
 		self.dados = dados
 
+	def setController(self, objeto):
+		self.controller = objeto
+
+	def monta_o_grafo(self):
+		self.controller.monta_grafo(self.dados)
+		
+	def chama_as_funcoes(self, comandos):
+		self.controller.executa_comandos(comandos)
+
 	def algoritmos(self):
+		
+		self.monta_o_grafo()
+		self.chama_as_funcoes(self.dados['comandos'])
 
 		if self.grafoCreateFrame.winfo_ismapped():
 			self.grafoCreateFrame.pack_forget()
@@ -132,7 +153,7 @@ class Interface(object):
 		else:
 			self.algoritmosFrame.pack()
 			self.grafoCreateFrame.pack_forget()
-
+	
 		self.exibe_algoritmos()
 
 	def exibe_algoritmos(self):
@@ -142,7 +163,7 @@ class Interface(object):
 			alg['bg'] = BACKGROUND
 			alg['text'] = self.lista_respostas.pop(0)
 			alg.pack()
-			self.algoritmosFrame.after(1000, self.algoritmos)
+			self.algoritmosFrame.after(1000, self.exibe_algoritmos)
 		else:
 			arq = Label(self.algoritmosFrame)
 			arq['bg'] = BACKGROUND
@@ -152,9 +173,11 @@ class Interface(object):
 			arq['font'] = ('Helvetica', '16')
 			arq.pack()
 
-			self.btnExec['text'] = 'Desenhar o Grafo'
+			self.btnExec['text'] = 'Desenhar o Grafo do Arquivo'
 			self.btnExec['bg'] = '#00A885'
 			self.btnExec['command'] = self.plotar_grafo
+
+		return True
 
 	def plotar_grafo(self):
 
@@ -205,10 +228,10 @@ class Interface(object):
 		grafo['eh_digrafo'] = bool( self.digrafo.get() )
 		grafo['tem_peso']  = bool( self.peso.get() )
 
-		newGrafo = Main()
-		newGrafo.monta_grafo(grafo)
 		self.dados = grafo
+		self.monta_o_grafo()
 
+		self.btnComandos.pack(side = LEFT)
 		self.btnExec['text'] = 'Desenhar o Grafo'
 		self.btnExec['bg'] = '#00A885'
 		self.btnExec['command'] = self.plotar_grafo
@@ -222,3 +245,6 @@ class Interface(object):
 
 		return novos_dados
 		
+
+	def recebe_comandos(self):
+		pass	

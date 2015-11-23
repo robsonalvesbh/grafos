@@ -4,7 +4,7 @@ import math
 class Grafo(object):
 
 	"""Construtor da classe Grafo"""
-	def __init__(self, dados):
+	def __init__(self, dados = None):
 		self.dados = dados
 		self.lista_adjacencia = {}
 
@@ -47,13 +47,12 @@ class Grafo(object):
 
 
 	def calcula_distancia(self, caminho):
-		
-		caminho_entrada = caminho
+
 		v_atual = caminho.pop(0)
 		distancia = 0
 
 		try:
-			while caminho:
+			while len(caminho) > 0:
 
 				for aresta in self.lista_adjacencia[v_atual]:
 
@@ -66,43 +65,6 @@ class Grafo(object):
 		except:
 			return None
 
-	"""
-	def encontra_caminho(self, origem, destino):
-		
-		caminho = []
-		v_atual = origem
-		caminho += [origem]
-		distancia = 0
-
-		while v_atual != destino:
-			
-			lista_aux = []
-
-			if v_atual == destino:
-				return {"caminho": caminho, "distancia": distancia}
-
-			if not v_atual in self.lista_adjacencia:
-				return None
-
-			for aresta in self.lista_adjacencia[v_atual]:
-				lista_aux.append(aresta[0])
-
-			for aresta in self.lista_adjacencia[v_atual]:
-				
-				if destino in lista_aux:
-					indice = lista_aux.index(destino)
-					distancia += self.lista_adjacencia[v_atual][indice][1]
-					v_atual = self.lista_adjacencia[v_atual][indice][0]
-					caminho += [v_atual]	
-					break
-
-				if aresta[0] not in caminho:
-					
-					v_atual = aresta[0]
-					distancia += aresta[1]
-					caminho += [v_atual]
-					break
-	"""
 
 	def busca_em_largura(self, origem, destino):
 
@@ -305,29 +267,33 @@ class Grafo(object):
 			
 			respostas['distancia'] = distancia
 
+			# print(self.lista_adjacencia)
 			return respostas
 		except:
 			return None
 
-	def detecta_ciclo(self, vertices):
+	# def kruskal(self):
 
-		caminho = list(vertices)
-		visitados = []
-		v_atual = None
+	# 	arestas = []
+	# 	arvore = []
+	# 	visitados = []
 
-		while len(caminho) > 0:
-			v_atual = caminho.pop(0)
+	# 	#Cria peso infinito para todas as arestas
+	# 	for i in self.lista_adjacencia:
+	# 		for j in self.lista_adjacencia[i]:
+	# 			arestas.append( list([i,j[0],j[1]]) )
 
-			if not v_atual in visitados:
-				visitados.append(v_atual)
-			else:
-				return True
+	# 	arestas.sort(key = lambda a: a[2])
 
-		return False
+	# 	v_atual = list(arestas.pop(0))
+		
+	# 	if not v_atual[0] in visitados and not v_atual[1] in visitados:
+			
+	# 		visitados.append(v_atual[0])
+	# 		visitados.append(v_atual[1])
 
-	def kruskal(self):
+	# 	else:
 
-		#Cria peso infinito para todas as arestas
-		for i in self.lista_adjacencia:
-			for j in self.lista_adjacencia[i]:
-				print(j)
+	# 		for i in self.lista_adjacencia[0]:
+
+

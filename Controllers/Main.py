@@ -6,13 +6,14 @@ import time
 
 from Arquivo import *
 from Grafo import *
+# from Kruskal import *
 from Interface import *
 
 #Classe principal MAIN
 class Main(object):
 
 	#construtor da classe, recebe como parametro os arquivos de entrada e saida
-	def __init__(self, arquivo_entrada = None, arquivo_saida = None, interface = None):
+	def __init__(self, interface = None, arquivo_entrada = None, arquivo_saida = None):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida =  arquivo_saida
 		self.arquivo = Arquivo( self.arquivo_entrada, self.arquivo_saida ) #estancia da classe Arquivo
@@ -32,7 +33,7 @@ class Main(object):
 
 		#tratando os erros
 		except IOError:
-			os.system("cls")
+			# os.system("cls")
 			print("\nArquivos de entradas invalidos ou corrompidos")
 			sys.exit(0)
 
@@ -56,6 +57,7 @@ class Main(object):
 
 	#Executa algoritmo que calcula a distancia de um determinado caminho
 	def calcula_distancia(self, caminho):
+
 		lista_caminho = list(caminho) #copia a lista de caminho para lista_caminho
 		result = self.grafo.calcula_distancia(caminho)
 
@@ -70,14 +72,6 @@ class Main(object):
 				self.interface.lista_respostas.append('Calcula distancia - [ OK ]')
 
 			return True
-			
-	#executa o algoritmo que encontra uma rota entre 2 vertices
-	def encontra_caminho(self, v_origem, v_destino):
-		result = self.grafo.encontra_caminho( v_origem, v_destino )
-		if result == None:
-			print("Caminho Invalido")
-		else:
-			self.grava_resposta_arquivo("caminho", result)
 
 	def busca_largura(self, lista):
 		vertices = list(lista)
@@ -122,7 +116,6 @@ class Main(object):
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
 		# os.system("cls")
-
 		for i in comandos:
 			self.chama_funcoes(i)
 

@@ -1,5 +1,6 @@
 # Pacotes
 import unittest
+import sys
 # importando as pastas
 sys.path.append('Models')
 # importando os nossos arquivos
