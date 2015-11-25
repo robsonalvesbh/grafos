@@ -3,7 +3,7 @@
 class Arquivo(object):
 
 	"""Método construtor da classe"""
-	def __init__(self, arquivo_entrada, arquivo_saida):
+	def __init__(self, arquivo_entrada = None, arquivo_saida = None):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida = arquivo_saida
 		self.vertices = []
@@ -99,19 +99,27 @@ class Arquivo(object):
 			#em cada loop do for adiciono a lista contendo (vertice_origem, vertice_destino, peso) na lista self.arestas
 			self.arestas.append(lista_aux)
 
-	def pega_comandos(self, comandos):
+	def pega_comandos(self, comandos, retorno = None):
+		
+		retorno = []
+
 		#percorro a lista de comendos
 		for i in comandos:
 			#separo cada comando pelo espaço
 			aux = i.split(' ')	
 			
-			lista_aux =  aux[1:-1] 
+			lista_aux = aux[1:-1] 
 			#pego o ultimo elemendo do comendo e separo pelo ;
 			ultimo_elemento = aux[len(aux) - 1].split(';')
 			#depois de separar o ultimo comendo pego o primeiro elemento
 			lista_aux.append( ultimo_elemento[0] )
 
+			retorno.append({'algoritmo': aux[0], 'lista': lista_aux})
 			self.comandos.append({'algoritmo': aux[0], 'lista': lista_aux})
+
+			if retorno == True:
+				print('ops')
+				return retorno
 
 	def monta_grafo(self):
 		self.grafo['vertices'] = self.vertices 

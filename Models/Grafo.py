@@ -47,7 +47,6 @@ class Grafo(object):
 
 
 	def calcula_distancia(self, caminho):
-
 		v_atual = caminho.pop(0)
 		distancia = 0
 
@@ -271,29 +270,3 @@ class Grafo(object):
 			return respostas
 		except:
 			return None
-
-	# def kruskal(self):
-
-	# 	arestas = []
-	# 	arvore = []
-	# 	visitados = []
-
-	# 	#Cria peso infinito para todas as arestas
-	# 	for i in self.lista_adjacencia:
-	# 		for j in self.lista_adjacencia[i]:
-	# 			arestas.append( list([i,j[0],j[1]]) )
-
-	# 	arestas.sort(key = lambda a: a[2])
-
-	# 	v_atual = list(arestas.pop(0))
-		
-	# 	if not v_atual[0] in visitados and not v_atual[1] in visitados:
-			
-	# 		visitados.append(v_atual[0])
-	# 		visitados.append(v_atual[1])
-
-	# 	else:
-
-	# 		for i in self.lista_adjacencia[0]:
-
-

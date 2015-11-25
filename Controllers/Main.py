@@ -6,7 +6,6 @@ import time
 
 from Arquivo import *
 from Grafo import *
-# from Kruskal import *
 from Interface import *
 
 #Classe principal MAIN
@@ -56,83 +55,122 @@ class Main(object):
 			return False
 
 	#Executa algoritmo que calcula a distancia de um determinado caminho
-	def calcula_distancia(self, caminho):
+	def calcula_distancia(self, caminho, requisicao = False):
 
 		lista_caminho = list(caminho) #copia a lista de caminho para lista_caminho
 		result = self.grafo.calcula_distancia(caminho)
 
 		if result == None:
-			self.interface.lista_respostas.append('Calcula distancia - [ ERROR ]')
-			return False
+			if requisicao == True:
+				return result
+			else:
+				self.interface.lista_respostas.append('Calcula distancia - [ ERROR ]')
 		else:
 			dados = {"caminho": lista_caminho, "distancia": result}
-			resposta = self.grava_resposta_arquivo("distancia", dados)
 
-			if resposta != False:
-				self.interface.lista_respostas.append('Calcula distancia - [ OK ]')
+			if requisicao == True:
+				return dados
+			else:
+				resposta = self.grava_resposta_arquivo("distancia", dados)
 
-			return True
+				if resposta != False:
+					self.interface.lista_respostas.append('Calcula distancia - [ OK ]')
 
-	def busca_largura(self, lista):
+	def busca_largura(self, lista, requisicao = False):
 		vertices = list(lista)
 		result = self.grafo.busca_em_largura( lista[0], lista[1] )
+
 		if result == None:
-			self.interface.lista_respostas.append('Busca em largura  - [ ERROR ]')
+			if requisicao == True:
+				return result
+			else:
+				self.interface.lista_respostas.append('Busca em largura  - [ ERROR ]')
 		else:
 			dados = {"vertices": vertices, "resposta": result}
-			resposta = self.grava_resposta_arquivo("largura", dados)
+			if requisicao == True:
+				return dados
+			else:
+				resposta = self.grava_resposta_arquivo("largura", dados)
 
-			if resposta != False:
-				self.interface.lista_respostas.append('Busca em largura  - [ OK ]')
+				if resposta != False:
+					self.interface.lista_respostas.append('Busca em largura  - [ OK ]')
 
-	def busca_profundidade(self, lista):
+	def busca_profundidade(self, lista, requisicao = False):
 		vertices = list(lista)
 		result = self.grafo.busca_em_profundidade( lista[0], lista[1] )
+
 		if result == None:
-			self.interface.lista_respostas.append('Busca em profundidade  - [ ERROR ]')
+			if requisicao == True:
+				return result
+			else:
+				self.interface.lista_respostas.append('Busca em profundidade  - [ ERROR ]')
 		else:
 			dados = {"vertices": vertices, "resposta": result}
-			resposta = self.grava_resposta_arquivo("profundidade", dados)
 
-			if resposta != False:
-				self.interface.lista_respostas.append('Busca em profundidade  - [ OK ]')
+			if requisicao == True:
+				return dados
+			else:
+				resposta = self.grava_resposta_arquivo("profundidade", dados)
 
-	def menor_caminho(self, origem, destino):
+				if resposta != False:
+					self.interface.lista_respostas.append('Busca em profundidade  - [ OK ]')
+
+	def menor_caminho(self, origem, destino, requisicao = False):
 
 		result = self.grafo.dijkstra(origem, destino)
 
 		if result == None:
-			self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ ERROR ]')
+			if requisicao == True:
+				return result
+			else:
+				self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ ERROR ]')
 		else:
 			dados = {"vertices": [origem, destino], "resposta": result}
-			resposta = self.grava_resposta_arquivo("menorcaminho", dados)
 
-			if resposta != False:
-				self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ OK ]')
+			if requisicao == True:
+				return result
+			else:
+				resposta = self.grava_resposta_arquivo("menorcaminho", dados)
+
+				if resposta != False:
+					self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ OK ]')
 
 	def gerar_prim(self, origem):
 		self.grafo.prim( origem )
 		
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
-		# os.system("cls")
+
 		for i in comandos:
 			self.chama_funcoes(i)
 
 		print("Executando...")
 
-	def chama_funcoes(self, comando):
+	def chama_funcoes(self, comando, requisicao = False):
 		
-		if comando['algoritmo'].lower() == "distancia":
-			self.calcula_distancia(comando['lista'])
+		if (requisicao == True):
+			if comando['algoritmo'].lower() == "distancia":
+				return self.calcula_distancia(comando['lista'], True)
 
-		if comando['algoritmo'].lower() == "largura":
-			self.busca_largura(comando['lista'])
+			if comando['algoritmo'].lower() == "largura":
+				return self.busca_largura(comando['lista'], True)
 
-		if comando['algoritmo'].lower() == "profundidade":
-			self.busca_profundidade(comando['lista'])
+			if comando['algoritmo'].lower() == "profundidade":
+				return self.busca_profundidade(comando['lista'], True)
 
-		if comando['algoritmo'].lower() == "menorcaminho":
-			v = comando['lista']
-			self.menor_caminho(v[0], v[1])
+			if comando['algoritmo'].lower() == "menorcaminho":
+				return self.menor_caminho(comando['lista'][0], comando['lista'][1], True)
+		else:
+
+			if comando['algoritmo'].lower() == "distancia":
+				return self.calcula_distancia(comando['lista'])
+
+			if comando['algoritmo'].lower() == "largura":
+				return self.busca_largura(comando['lista'])
+
+			if comando['algoritmo'].lower() == "profundidade":
+				return self.busca_profundidade(comando['lista'])
+
+			if comando['algoritmo'].lower() == "menorcaminho":
+				return self.menor_caminho(comando['lista'][0], comando['lista'][1])
 

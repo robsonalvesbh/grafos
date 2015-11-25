@@ -12,9 +12,11 @@ sys.path.insert(0, '../Views/')
 
 from Main import *
 
-URL_ROOT = "C:\\Users\\robso\Projetos\\trabalho_fernando\\imagens_grafos\\"
+URL_ROOT = "D:\wamp\www\grafos\img"
 
 app = Flask(__name__)
+
+controller_da_api = Main()
 
 @app.route('/')
 def hello_world():
@@ -23,13 +25,9 @@ def hello_world():
 @app.route('/criaGrafo', methods=['POST'])
 def criaGrafo():
 
-	grafo = {}
-
-	grafo['vertices'] = request.form['vertices'].split(' ')
-	grafo['arestas'] = formata_dados(request.form['arestas'].split(', '))
-	grafo['eh_digrafo'] =  request.form['digrafo'] 
-	grafo['tem_peso']  = request.form['peso']
-
+	grafo = request.data
+	grafo = json.loads(grafo)
+	controller_da_api.monta_grafo(grafo)
 	resposta = {}
 	resposta['status'] = 200 
 	resposta['mensagem'] = "Requisição realizada com sucesso"
@@ -49,7 +47,7 @@ def formata_dados(dados):
 def plotar_grafo(dados):
 
 	# verifica se é um grafo direcionado ou não
-	if dados['eh_digrafo'] == True:
+	if dados['eh_digrafo'] == 'True':
 		G = nx.DiGraph()
 	else:
 		G = nx.Graph()
@@ -66,8 +64,8 @@ def plotar_grafo(dados):
 	# desenha e exibe
 	nx.draw_networkx(G)
 	now = datetime.now()
-	name = URL_ROOT + "grafo_" + str(now.day) + "_" + str(now.month) + "_" + str(now.hour) + "_" + str(now.minute) + ".png"
-	plt.savefig(name)
+	name =  "grafo_" + str(now.day) + "_" + str(now.month) + "_" + str(now.hour) + "_" + str(now.minute) + "_" + str(now.second) +".png"
+	plt.savefig(URL_ROOT + '\\' + name)
 
 	return name
 

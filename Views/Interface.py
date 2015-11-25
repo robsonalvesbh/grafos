@@ -11,8 +11,10 @@ class Interface(object):
 	def __init__(self, instancia, exibe_gera_arquivo = True):
 		
 		self.controller = None
+		self.controller_da_interface = Main()
 		# dados do grafo
-		self.dados = None
+		self.dados_do_arquivo = None
+		self.dados_da_interface = None
 
 		#configurações da janeça
 		self.janela(instancia)
@@ -43,12 +45,11 @@ class Interface(object):
 		if exibe_gera_arquivo == True:
 			self.btnExec.pack(side = LEFT)
 
-		#  botao informar comandos
+		#  botao quadro comandos
 		self.btnComandos = Button(self.ArquivoFrame)
-		self.btnComandos['text'] = 'Gerar arquivo de saida'
+		self.btnComandos['text'] = 'Executar algoritmos'
 		self.formata_button(self.btnComandos,'#2C82C9')
-		self.btnComandos['command'] = self.algoritmos
-		
+		self.btnComandos['command'] = self.quadro_comandos
 
 		# botao cria grafo
 		self.btnCreate = Button(self.ArquivoFrame)
@@ -122,6 +123,27 @@ class Interface(object):
 		self.pesoFrame.pack()
 		self.btnCriaGrafo.pack()
 
+		# frame dos comandos
+		self.comandosAlgoritmosFrame = Frame(instancia, bg = BACKGROUND, pady = '10')
+
+		# frames comandos
+		self.boxAreaComandos = Frame(self.comandosAlgoritmosFrame, bg = BACKGROUND)
+		self.frameBtninformarComandos = Frame(self.comandosAlgoritmosFrame, bg = BACKGROUND, pady = '15')
+
+		self.LabelAreaComandos = Label(self.boxAreaComandos, text = "COMANDOS: ", bg = BACKGROUND)
+		self.AreaComandos = Text(self.boxAreaComandos, bg = '#f1f1f1', width = '68', height = '10')
+
+		self.LabelAreaComandos.pack()
+		self.AreaComandos.pack()
+
+		self.btnInformarComandos = Button(self.frameBtninformarComandos)
+		self.btnInformarComandos['text'] = 'Executar os comandos'
+		self.formata_button(self.btnInformarComandos,'#FAC51C')
+		self.btnInformarComandos['command'] = self.recebe_comando
+
+		self.boxAreaComandos.pack()
+		self.btnInformarComandos.pack()
+
 		# lista de respostas
 		self.lista_respostas = []	
 
@@ -131,21 +153,25 @@ class Interface(object):
 		instancia['bg'] = BACKGROUND
 
 	def setDados(self, dados):
-		self.dados = dados
+		self.dados_do_arquivo = dados
 
 	def setController(self, objeto):
 		self.controller = objeto
 
-	def monta_o_grafo(self):
-		self.controller.monta_grafo(self.dados)
+	def monta_o_grafo_do_arquivo(self):
+		self.controller.monta_grafo(self.dados_do_arquivo)
+
+	def monta_o_grafo_da_interface(self):
+		self.controller_da_interface.monta_grafo(self.dados_da_interface)
 		
 	def chama_as_funcoes(self, comandos):
 		self.controller.executa_comandos(comandos)
 
 	def algoritmos(self):
 		
-		self.monta_o_grafo()
-		self.chama_as_funcoes(self.dados['comandos'])
+		self.monta_o_grafo_do_arquivo()
+
+		self.chama_as_funcoes(self.dados_do_arquivo['comandos'])
 
 		if self.grafoCreateFrame.winfo_ismapped():
 			self.grafoCreateFrame.pack_forget()
@@ -175,27 +201,58 @@ class Interface(object):
 
 			self.btnExec['text'] = 'Desenhar o Grafo do Arquivo'
 			self.btnExec['bg'] = '#00A885'
-			self.btnExec['command'] = self.plotar_grafo
+			self.btnExec['command'] = self.plotar_grafo_arquivo
 
 		return True
 
-	def plotar_grafo(self):
+	def plotar_grafo_arquivo(self):
+		self.plotar_grafo(self.dados_do_arquivo)
+
+	def plotar_grafo_interface(self):
+		self.plotar_grafo(self.dados_da_interface)
+
+	def plotar_grafo(self, grafo):
+
+		lista_labels = []
+		lista_peso = []
+		node_size = 1600 
+		node_color = 'red'
+		node_alpha = 1
+		node_text_size = 12
+		edge_color = "blue" 
+		edge_alpha = 0.3 
+		edge_tickness = 1
+		edge_text_pos = 0.3
+		text_font = 'sans-serif'
 
 		# verifica se é um grafo direcionado ou não
-		if self.dados['eh_digrafo'] == True:
+		if grafo['eh_digrafo'] == 'True':
 			G = nx.DiGraph()
 		else:
 			G = nx.Graph()
 		
 		# Adiciona os vertices ao grafo
-		G.add_nodes_from(self.dados['vertices'])
+		G.add_nodes_from(grafo['vertices'])
 
 		# Adiciona as arestas
-		for aresta in self.dados['arestas']:
-			G.add_edge(aresta[0],aresta[1],weight=aresta[2])
+		for aresta in grafo['arestas']:
+			G.add_edge(aresta[0],aresta[1])
+			lista_labels.append((aresta[0],aresta[1]))
+			lista_peso.append(aresta[2])
+
+		graph_pos = nx.shell_layout(G)		
+		nx.draw_networkx_edges(G,graph_pos)
+
+		nx.draw_networkx_nodes(G,graph_pos,node_size=node_size, alpha=node_alpha, node_color=node_color)
+		nx.draw_networkx_edges(G,graph_pos,width=edge_tickness, alpha=edge_alpha,edge_color=edge_color)
+		nx.draw_networkx_labels(G, graph_pos,font_size=node_text_size, font_family=text_font)
+
+		if grafo['tem_peso'] == 'True':
+			edge_labels = dict(zip(lista_labels, lista_peso))
+			nx.draw_networkx_edge_labels(G, graph_pos, edge_labels=edge_labels, label_pos=edge_text_pos)
 
 		# desenha e exibe
-		nx.draw_networkx(G)
+		# nx.draw_networkx(G)
 		plt.show()
 
 	def criar_grafo(self):
@@ -225,16 +282,18 @@ class Interface(object):
 
 		grafo['vertices'] = self.vertices.get().split(' ')
 		grafo['arestas'] = self.formata_dados(self.aresta.get().split(', '))
-		grafo['eh_digrafo'] = bool( self.digrafo.get() )
-		grafo['tem_peso']  = bool( self.peso.get() )
+		grafo['eh_digrafo'] =  self.digrafo.get() 
+		grafo['tem_peso']  =  self.peso.get() 
 
-		self.dados = grafo
-		self.monta_o_grafo()
+		print(grafo)
+		
+		self.dados_da_interface = grafo
+		self.monta_o_grafo_da_interface()
 
 		self.btnComandos.pack(side = LEFT)
-		self.btnExec['text'] = 'Desenhar o Grafo'
-		self.btnExec['bg'] = '#00A885'
-		self.btnExec['command'] = self.plotar_grafo
+		self.btnCreate['text'] = 'Desenhar o Grafo'
+		self.btnCreate['bg'] = '#E14938'
+		self.btnCreate['command'] = self.plotar_grafo_interface
 
 	def formata_dados(self, dados):
 		
@@ -245,6 +304,33 @@ class Interface(object):
 
 		return novos_dados
 		
+	def quadro_comandos(self):
+		if self.algoritmosFrame.winfo_ismapped() or self.grafoCreateFrame.winfo_ismapped():
+			self.algoritmosFrame.pack_forget()
+			self.grafoCreateFrame.pack_forget()
+			self.comandosAlgoritmosFrame.pack()
+			self.frameBtninformarComandos.pack()
+		else:
+			self.comandosAlgoritmosFrame.pack_forget()
+			self.algoritmosFrame.pack()
+			self.grafoCreateFrame.pack()
 
-	def recebe_comandos(self):
-		pass	
+	def recebe_comando(self):
+
+		lista_de_comandos = []
+		comandos = self.AreaComandos.get("1.0",END).split('\n')
+
+		for comando in comandos:
+
+			if comando != '':
+				comando = comando.split(' ')
+				lista_aux = comando[1:]
+				lista_de_comandos.append( {'algoritmo': comando[0], 'lista': lista_aux} )
+
+		for i in lista_de_comandos:
+			print(self.controller_da_interface.chama_funcoes(i, True))
+
+
+
+
+		
