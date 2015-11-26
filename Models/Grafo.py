@@ -234,7 +234,6 @@ class Grafo(object):
 	def prim(self, origem):
 
 		try:
-
 			visitados = [str(origem)]
 			vertices = list(self.dados['vertices'])
 			vertices.remove(str(origem))
@@ -266,7 +265,6 @@ class Grafo(object):
 			
 			respostas['distancia'] = distancia
 
-			# print(self.lista_adjacencia)
 			return respostas
 		except:
 			return None

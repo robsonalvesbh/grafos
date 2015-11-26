@@ -135,8 +135,24 @@ class Main(object):
 				if resposta != False:
 					self.interface.lista_respostas.append('Busca menor caminho (DIJKSTRA)  - [ OK ]')
 
-	def gerar_prim(self, origem):
-		self.grafo.prim( origem )
+	def gerar_prim(self, origem, requisicao = False):
+		result = self.grafo.prim( origem )
+
+		if result == None:
+			if requisicao == True:
+				return result
+			else:
+				self.interface.lista_respostas.append('Prim - [ ERROR ]')
+		else:
+			dados = {"vertices": origem, "resposta": result}
+
+			if requisicao == True:
+				return result
+			else:
+				resposta = self.grava_resposta_arquivo("prim", dados)
+
+				if resposta != False:
+					self.interface.lista_respostas.append('Prim - [ OK ]')
 		
 	#executa a lista de comandos do arquivo de entrada
 	def executa_comandos(self, comandos):
@@ -147,7 +163,8 @@ class Main(object):
 		print("Executando...")
 
 	def chama_funcoes(self, comando, requisicao = False):
-		
+		print(comando)
+
 		if (requisicao == True):
 			if comando['algoritmo'].lower() == "distancia":
 				return self.calcula_distancia(comando['lista'], True)
@@ -160,6 +177,9 @@ class Main(object):
 
 			if comando['algoritmo'].lower() == "menorcaminho":
 				return self.menor_caminho(comando['lista'][0], comando['lista'][1], True)
+
+			if comando['algoritmo'].lower() == "prim":
+				return self.gerar_prim(comando['lista'][0], True)
 		else:
 
 			if comando['algoritmo'].lower() == "distancia":
@@ -173,4 +193,7 @@ class Main(object):
 
 			if comando['algoritmo'].lower() == "menorcaminho":
 				return self.menor_caminho(comando['lista'][0], comando['lista'][1])
+
+			if comando['algoritmo'].lower() == "prim":
+				return self.gerar_prim(comando['lista'][0])
 

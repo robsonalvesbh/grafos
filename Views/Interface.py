@@ -77,7 +77,7 @@ class Interface(object):
 		# vertices
 		self.verticesLabel = Label(self.verticesFrame, text = "Vertices: ", bg = BACKGROUND)
 		self.vertices = Entry(self.verticesFrame, bg = BACKGROUND)
-		self.vertices.insert(0, "1 2 3")
+		self.vertices.insert(0, "0 1 2 3")
 		self.formata_entrada(self.vertices)
 
 		self.verticesLabel.pack()
@@ -86,7 +86,7 @@ class Interface(object):
 		# arestas
 		self.arestaLabel = Label(self.arestasFrame, text = "Aresta: ", bg = BACKGROUND)
 		self.aresta = Entry(self.arestasFrame, bg = BACKGROUND)
-		self.aresta.insert(0, "[1 2 30], [2 3 10]")
+		self.aresta.insert(0, "[0 1 10], [1 2 11], [0 2 20], [2 3 12], [1 3 13], [2 0 14]")
 		self.formata_entrada(self.aresta)
 
 		self.arestaLabel.pack()
@@ -251,8 +251,6 @@ class Interface(object):
 			edge_labels = dict(zip(lista_labels, lista_peso))
 			nx.draw_networkx_edge_labels(G, graph_pos, edge_labels=edge_labels, label_pos=edge_text_pos)
 
-		# desenha e exibe
-		# nx.draw_networkx(G)
 		plt.show()
 
 	def criar_grafo(self):
