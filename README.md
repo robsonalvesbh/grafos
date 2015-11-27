@@ -92,9 +92,9 @@ feito isso será iniciado um servidor para as requisições, cujo endereço:
 
 ### Gerar um grafo:
 
-> **Url**: /criaGrafo··
-> **Tipo de requisição**: POST··
-> **Parâmetros**: ··
+> **Url**: /criaGrafo  
+> **Tipo de requisição**: POST  
+> **Parâmetros**:   
 > - vertices: Ex: 1 2 3 4 5
 > - arestas: Ex: [v1, v2, peso], [v3, v4, peso] 
 > - digrafo: Ex: true
@@ -102,40 +102,40 @@ feito isso será iniciado um servidor para as requisições, cujo endereço:
 
 ### Calculo de distancia:
 
-> **Url**: /distancia··
-> **Tipo de requisição**: GET··
-> **Parâmetros**: ··
+> **Url**: /distancia  
+> **Tipo de requisição**: GET  
+> **Parâmetros**:   
 > - Caminho: Ex: 1 2 3 4
 
 ### Busca em largura:
 
-> **Url**: /largura··
-> **Tipo de requisição**: GET··
-> **Parâmetros**: ··
+> **Url**: /largura  
+> **Tipo de requisição**: GET  
+> **Parâmetros**:   
 > - Origem 
 > - Destino
 
 ### Busca em profundidade:
 
-> **Url**: /profundidade··
-> **Tipo de requisição**: GET··
-> **Parâmetros**: ··
+> **Url**: /profundidade  
+> **Tipo de requisição**: GET  
+> **Parâmetros**:   
 > - Origem 
 > - Destino
 
 ### Calculo menor caminho:
 
-> **Url**: /dijkstra··
-> **Tipo de requisição**: GET··
-> **Parâmetros**: ··
+> **Url**: /dijkstra  
+> **Tipo de requisição**: GET  
+> **Parâmetros**:   
 > - Origem 
 > - Destino
 
 ### Árvore geradora minima:
 
-> **Url**: /prim··
-> **Tipo de requisição**: GET··
-> **Parâmetros**: ··
+> **Url**: /prim  
+> **Tipo de requisição**: GET  
+> **Parâmetros**:   
 > - Origem 
 
 
