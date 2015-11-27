@@ -2,7 +2,7 @@
 
 class Arquivo(object):
 
-	"""Método construtor da classe"""
+	#Método construtor da classe
 	def __init__(self, arquivo_entrada = None, arquivo_saida = None):
 		self.arquivo_entrada = arquivo_entrada
 		self.arquivo_saida = arquivo_saida
@@ -12,10 +12,6 @@ class Arquivo(object):
 		self.grafo = {}
 		self.eh_digrafo = False
 		self.tem_peso = False
-
-	def get_file_name(self):
-		print("O nome do arquivo de entrada e %s " % self.arquivo_entrada)
-		print("E o arquivo de saida e %s" % self.arquivo_saida)
 
 	#Função abrir aquivo recebe 2 parametros (arquivo e o modo de abertura) e retorna o arquivo aberto
 	def abrir_arquivo(self, arquivo, modo_abertura):
@@ -69,9 +65,9 @@ class Arquivo(object):
 		#e como uma string é nada mais que uma lista
 		#e acrescentando o [0] a frente vertices[1].split(' ')[0][0] pegamos sempre a primeira letra 
 		#que sempre será f ou t (f = false, t = true)
-		self.eh_digrafo = vertices[1].split(' ')[0][0]
+		self.eh_digrafo = vertices[1].split(' ')[0]
 		#mesmo exemplo do digrafo acima
-		self.tem_peso = vertices[2].split(' ')[0][0]
+		self.tem_peso = vertices[2].split(' ')[0]
 		
 	#função que pega as arestas
 	def pega_arestas(self, arestas):
@@ -118,14 +114,13 @@ class Arquivo(object):
 			self.comandos.append({'algoritmo': aux[0], 'lista': lista_aux})
 
 			if retorno == True:
-				print('ops')
 				return retorno
 
 	def monta_grafo(self):
 		self.grafo['vertices'] = self.vertices 
 		self.grafo['arestas'] = self.arestas
-		self.grafo['eh_digrafo'] = True if self.eh_digrafo.lower() == 't' else False #Ternário, retorna True se t (TRUE) e False caso contrario
-		self.grafo['tem_peso']  = True if self.tem_peso.lower() == 't' else False
+		self.grafo['eh_digrafo'] = self.eh_digrafo.lower()
+		self.grafo['tem_peso']  = self.tem_peso.lower()
 		self.grafo['comandos'] = self.comandos
 
 	#função que ler o arquivo de entrada
@@ -140,28 +135,32 @@ class Arquivo(object):
 		return self.grafo
 		
 	#função que grava a resposta no arquivo de saida
-	def grava_saida(self, algoritmo, resposta):
+	def grava_saida(self, algoritmo, resposta, arq_interface = None):
 
-		arq = self.abrir_arquivo(self.arquivo_saida, "a")
+		if arq_interface == None:
+			arq = self.abrir_arquivo(self.arquivo_saida, "a")
+		else:
+			arq = self.abrir_arquivo(arq_interface, "a")
+
+		print(arq)
 
 		try:
 
 			if algoritmo == "distancia":
 				self.grava_distancia(arq, resposta)
-			if algoritmo == "caminho":
-				pass
 			if algoritmo == "largura":
 				self.grava_busca_largura(arq, resposta)
 			if algoritmo == "profundidade":
 				self.grava_busca_profundidade(arq, resposta)
 			if algoritmo == "menorcaminho":
 				self.grava_menor_caminho(arq, resposta)
+			if algoritmo == "prim":
+				self.grava_prim(arq, resposta)
 
 		except:
 
 			return False
 			
-
 		arq.close()
 
 	def grava_distancia(self, arquivo, resposta):
@@ -233,4 +232,22 @@ class Arquivo(object):
 		arquivo.write('\n')	
 		arquivo.write('%s ' % str(resposta['resposta']['distancia']))
 
+		arquivo.write('\n')
+		arquivo.write('\n')
+
+	def grava_prim(self, arquivo, resposta):
+
+		arquivo.write('PRIM ')
+		arquivo.write('%s ' % str(resposta['vertices']))
+
+		arquivo.write('\n')
+
+		for i in resposta['resposta']['caminho']:
+			for j in i:
+				arquivo.write('%s ' % str(j))
+			arquivo.write('\n')
+
+		arquivo.write('%s ' % str(resposta['resposta']['distancia']))
+
+		arquivo.write('\n')
 		arquivo.write('\n')

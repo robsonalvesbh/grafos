@@ -21,7 +21,6 @@ if __name__ == "__main__":
 		controller = Main( interface, sys.argv[1], sys.argv[2] )
 		controller.validar_arquivo()
 		dados = controller.tratar_dados_de_entrada()
-		print(dados)
 		interface.setController(controller)
 		interface.setDados(dados)
 	elif len(sys.argv) == 1:

@@ -128,7 +128,7 @@ class Main(object):
 			dados = {"vertices": [origem, destino], "resposta": result}
 
 			if requisicao == True:
-				return result
+				return dados
 			else:
 				resposta = self.grava_resposta_arquivo("menorcaminho", dados)
 
@@ -147,8 +147,9 @@ class Main(object):
 			dados = {"vertices": origem, "resposta": result}
 
 			if requisicao == True:
-				return result
+				return dados
 			else:
+				print(dados)
 				resposta = self.grava_resposta_arquivo("prim", dados)
 
 				if resposta != False:
@@ -163,7 +164,6 @@ class Main(object):
 		print("Executando...")
 
 	def chama_funcoes(self, comando, requisicao = False):
-		print(comando)
 
 		if (requisicao == True):
 			if comando['algoritmo'].lower() == "distancia":

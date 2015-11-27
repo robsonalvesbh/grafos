@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from tkinter import *
 
 from Controllers.Main import *
+from Models.Arquivo import *
 
 BACKGROUND = '#F9F9F9'
 
@@ -144,6 +145,9 @@ class Interface(object):
 		self.boxAreaComandos.pack()
 		self.btnInformarComandos.pack()
 
+		# frames comandos
+		self.boxRespostasComandos = Frame(self.comandosAlgoritmosFrame, bg = BACKGROUND)
+
 		# lista de respostas
 		self.lista_respostas = []	
 
@@ -226,7 +230,7 @@ class Interface(object):
 		text_font = 'sans-serif'
 
 		# verifica se é um grafo direcionado ou não
-		if grafo['eh_digrafo'] == 'True':
+		if grafo['eh_digrafo'].lower() == 'true':
 			G = nx.DiGraph()
 		else:
 			G = nx.Graph()
@@ -247,7 +251,7 @@ class Interface(object):
 		nx.draw_networkx_edges(G,graph_pos,width=edge_tickness, alpha=edge_alpha,edge_color=edge_color)
 		nx.draw_networkx_labels(G, graph_pos,font_size=node_text_size, font_family=text_font)
 
-		if grafo['tem_peso'] == 'True':
+		if grafo['tem_peso'].lower() == 'true':
 			edge_labels = dict(zip(lista_labels, lista_peso))
 			nx.draw_networkx_edge_labels(G, graph_pos, edge_labels=edge_labels, label_pos=edge_text_pos)
 
@@ -282,8 +286,6 @@ class Interface(object):
 		grafo['arestas'] = self.formata_dados(self.aresta.get().split(', '))
 		grafo['eh_digrafo'] =  self.digrafo.get() 
 		grafo['tem_peso']  =  self.peso.get() 
-
-		print(grafo)
 		
 		self.dados_da_interface = grafo
 		self.monta_o_grafo_da_interface()
@@ -315,6 +317,8 @@ class Interface(object):
 
 	def recebe_comando(self):
 
+		open("saida_interface.txt", "w")
+
 		lista_de_comandos = []
 		comandos = self.AreaComandos.get("1.0",END).split('\n')
 
@@ -325,10 +329,8 @@ class Interface(object):
 				lista_aux = comando[1:]
 				lista_de_comandos.append( {'algoritmo': comando[0], 'lista': lista_aux} )
 
+		saida = Arquivo()
+
 		for i in lista_de_comandos:
-			print(self.controller_da_interface.chama_funcoes(i, True))
-
-
-
-
-		
+			resultado = self.controller_da_interface.chama_funcoes(i, True)
+			saida.grava_saida(i['algoritmo'], resultado, "saida_interface.txt")
